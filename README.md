@@ -6,13 +6,14 @@ Web app to manage a list of clients who need their lawn services, in terms of th
 ## User Story
 Johnny Lawnsworth is a 36 years old, small business owner, living in Brazos Valley region of Texas, who runs a lawn care services for his clients. He employs a small team of diligent workers and owns professional lawn care equipments. His business is growing steadily and he needs a management tool to keep track of his client's addresses, lot size and lawn type to efficiently schedule his team for timely services depending on the customer's needs, turf characteristics and weather forecast.
 
-## Installation Instruction
+## Instruction
 Go to this link to see the app deployed: ([link](#))
 
 To run it locally,
 1. Clone this repository
 1. `npm install`
-1. `nodemon server.js`
+1. `npm start`
+1. Direct the browser to `localhost:3000/`
 
 ## Technology Stacks
 - [node](http://nodejs.org)/npm - A server side JavaScript tool and the accompanying package manager
