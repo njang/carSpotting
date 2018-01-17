@@ -1,7 +1,7 @@
 # Lawn Tracker
 
 ## Description
-An web app to manage the list of clients who need their lawn services, in terms of their address/location, lot size, turf type, and other relevant information.
+Web app to manage a list of clients who need their lawn services, in terms of their address/location, lot size, turf type, and other relevant information.
 
 ## User Story
 Johnny Lawnsworth is a 36 years old, small business owner, living in Brazos Valley region of Texas, who runs a lawn care services for his clients. He employs a small team of diligent workers and owns professional lawn care equipments. His business is growing steadily and he needs a management tool to keep track of his client's locations, lot size and lawn type to efficiently schedule his team for timely services depending on the customer's needs, turf characteristics and weather pattern.
