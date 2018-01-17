@@ -23,14 +23,23 @@ To run it locally,
 - MongoDB/Mongoose - NoSQL database used to create and store data
 - Google Maps API - for visualizing the location information
 
-## Requirements
-- Database ERD
-- Wireframes
-- Routes
-- Trello
-
 ## Wireframe
 ![Wireframe for Lawn Tracker app](public/images/lawnsworth-wireframe.png)
 
+## Trello
+Go to this link to see the board: ([link](https://trello.com/b/4VvhIUuh/lawn-tracker-app-by-lawnsworth): private access)
+
 ## Routes
+|URL|HTTP Verb|Action|Description|
+|---|---|---|---|
+|/clients           |GET|index|Show all clients|
+|/clients/new       |GET|new|Show new client form|
+|/clients           |POST|create|Create a client|
+|/clients/:id       |GET|show|Show client with :id|
+|/clients/:id/edit|GET|edit|Show edit form for client with :id|
+|/clients/:id|PATCH|update|Update client with :id|
+|/clients/:id/delete|GET|delete|Show delete form for client with :id|
+|/clients/:id|DELETE|destroy|Delete client with :id|
+
+## Database ERD
 
