@@ -1,6 +1,6 @@
+![Icon](public/images/grassIcon_128x128.png)
 # Lawn Tracker
 
-## Description
 Web app to manage a list of clients who need their lawn services, in terms of their address/location, lot size, turf type, and other relevant information.
 
 ## User Story
@@ -43,3 +43,5 @@ Go to this link to see the board: ([link](https://trello.com/b/4VvhIUuh/lawn-tra
 
 ## Database ERD
 
+## References
+1. favicon made by [Freepik](http://www.freepik.com) from [Flaticon](https://www.flaticon.com/) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)
