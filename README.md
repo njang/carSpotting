@@ -30,6 +30,7 @@ To run it locally,
 - Trello
 
 ## Wireframe
+![Wireframe for Lawn Tracker app](public/images/lawnsworth-wireframe.png)
 
 ## Routes
 
