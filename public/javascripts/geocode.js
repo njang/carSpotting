@@ -3,7 +3,7 @@
 	// $('#geocode').append($('<form>', {text: 'Enter address'}));
 	$('#geocode').text('Enter address');
 	$('#geocode').append($('<input>', {type: 'text', id: 'address'}));
-	$('#geocode').append($('<button>', {type: 'submit', id: 'submit', text: 'Submit'}));
+	$('#geocode').append($('<button>', {type: 'submit', id: 'submit', text: 'Coordinates'}));
 	$('#geocode').append($('<span>', {id: 'gpsResult'}));
 })();
 
@@ -33,6 +33,16 @@ $(document).ready(function(){
 });
 
 function onSuccess(responseData) {
-	let coordinates = responseData.results[0].geometry.location;
-	$("#gpsResult").text(coordinates.lat + ", " +  coordinates.lng);
+	let message = '';
+	switch (responseData.status) {
+		case 'OK':
+			message = responseData.results[0].geometry.location.lat + ", " +  responseData.results[0].geometry.location.lng;
+			break;
+		case 'ZERO_RESULTS':
+			message = 'No coordinates found';
+			break;
+		default:
+			message = responseData.status;
+	}
+	$("#gpsResult").text(message);
 };
