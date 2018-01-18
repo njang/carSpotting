@@ -44,7 +44,15 @@ Go to this link to see the board: ([link](https://trello.com/b/4VvhIUuh/lawn-tra
 
 ## Database ERD
 
+## Google Maps API
+* Geocoding does not require use of API key
+* Maps does not require use of API key, although it will send warning for NoApiKeys. The usage can be restricted on API developer console, and specifying 127.0.0.1:[port]
+
+
 ## References
 1. favicon made by [Freepik](http://www.freepik.com) from [Flaticon](https://www.flaticon.com/) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)
-1. Geocoding - Google Maps API Developer's Guide ([link](https://developers.google.com/maps/documentation/geocoding/intro))
 1. JavaScript API V3 - Google Maps API Developer's Guide ([link](https://developers.google.com/maps/documentation/javascript/3.exp/reference))
+1. Geocoding - Google Maps API Developer's Guide ([link](https://developers.google.com/maps/documentation/geocoding/intro))
+1. Best practices for securely using API keys - Google API Console Help ([link](https://support.google.com/googleapi/answer/6310037))
+1. Googlemaps API Key for Localhost - Stack Overflow ([link](https://stackoverflow.com/questions/39329874/googlemaps-api-key-for-localhost))
+1. 
