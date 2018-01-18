@@ -22,8 +22,8 @@ function initMap() {
 	  });
 	});
 
-	var infoWindow = new google.maps.infoWindow({
-		content: '<h1>College Station</h1>'
+	var infoWindow = new google.maps.InfoWindow({
+		content: '<h3>College Station</h3><p>Welcome to Aggieland!</p>'
 	});
 
 	marker.addListener('click', function(){
