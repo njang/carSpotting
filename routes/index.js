@@ -7,7 +7,9 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function homepage (req, res, next) {
-  res.render('index', { title: 'Lawn Tracker' });
+  res.render('index', { 
+  	title: 'Lawn Tracker'
+  });
 });
 
 /* JSON API Endpoints */
