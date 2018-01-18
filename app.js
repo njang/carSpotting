@@ -15,7 +15,6 @@ const app = express();
 
 const googleClientKey = ENV.GOOGLE_CLIENT_ID;
 const googleClientSecret = ENV.GOOGLE_CLIENT_SECRET;
-const googleMapsAPI = ENV.GOOGLE_MAPS_API;
 // const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 // view engine setup
