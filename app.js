@@ -5,12 +5,17 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const ENV = require('./app-env');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
 const db = require('./models');
 
 const app = express();
+
+const googleClientKey = ENV.GOOGLE_CLIENT_ID;
+const googleClientSecret = ENV.GOOGLE_CLIENT_SECRET;
+const googleMapsAPI = ENV.GOOGLE_MAPS_API;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
