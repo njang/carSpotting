@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const User = require('../models/user');
 const ENV = require('../app-env');
 
 const googleMapsAPIKey = ENV.GOOGLE_MAPS_API;
@@ -12,6 +13,7 @@ const googleMapsAPIKey = ENV.GOOGLE_MAPS_API;
 router.get('/', function homepage (req, res, next) {
   res.render('index', { 
   	title: 'Lawn Tracker',
+  	user: User,
   	googleMapsAPIKey: googleMapsAPIKey
   });
 });
