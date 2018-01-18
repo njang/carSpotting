@@ -46,3 +46,5 @@ Go to this link to see the board: ([link](https://trello.com/b/4VvhIUuh/lawn-tra
 
 ## References
 1. favicon made by [Freepik](http://www.freepik.com) from [Flaticon](https://www.flaticon.com/) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)
+1. Geocoding - Google Maps API Developer's Guide ([link](https://developers.google.com/maps/documentation/geocoding/intro))
+1. JavaScript API V3 - Google Maps API Developer's Guide ([link](https://developers.google.com/maps/documentation/javascript/3.exp/reference))
