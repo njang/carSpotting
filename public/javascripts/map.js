@@ -10,15 +10,24 @@ function initMap() {
 	// Marker for the center of the initial map view
 	var marker = new google.maps.Marker({
 	  position: bcs,
-	  map: map
+	  map: map,
+	  icon: 'images/grassIcon_32x32.png'
 	});
 	// Markers for the clients addresses
 	var markers = locations.map(function(location, i) {
 	  return new google.maps.Marker({
 	    position: location,
-	    map: map
+	    // map: map
 	    // label: labels[i % labels.length]
 	  });
+	});
+
+	var infoWindow = new google.maps.infoWindow({
+		content: '<h1>College Station</h1>'
+	});
+
+	marker.addListener('click', function(){
+		infoWindow.open(map, marker);
 	});
 }
 
