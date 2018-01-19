@@ -57,18 +57,36 @@ router.get('/api/clients/new', function newClientForm (req, res) {
 	});
 });
 
-// Create a client
+// Create a new client
 router.post('/api/clients', function createClient (req, res) {
 	res.json({
-		message: "Create a client"
+		message: "Create a new client"
 	});
 });
 
 // Show client with :id
 router.get('/api/clients/:id', function findClient (req, res) {
-	res.json({
-		message: "Show client with :id"
-	});
+  let clientId = req.params.id;
+	// find todo in db by id
+  Client.findOne({ _id: clientId }, function (err, foundClient) {
+    // update the todos's attributes
+    foundClient.name = req.body.name;
+    foundClient.phone = req.body.phone;
+    // foundClient.location = req.body.location;
+		foundClient.lawn.lotSize = req.body.lotSize;
+    foundClient.lawn.turfType = req.body.turfType;
+    foundClient.lawn.lastMowed = req.body.lastMowed;
+  // }
+
+    // save updated todo in db
+    foundClient.save(function (err, savedClient) {
+      res.json(savedClient);
+    });
+  });
+
+	// res.json({
+	// 	message: "Show client with :id"
+	// });
 });
 
 // Edit client with :id
@@ -94,9 +112,11 @@ router.get('/api/clients/:id/delete', function deleteClientForm (req, res) {
 
 // Delete client with :id
 router.delete('/api/clients/:id', function deleteClient (req, res) {
-	res.json({
-		message: "Delete client with :id"
-	});
+  let clientId = req.params.id;
+  // find todo in db by id and remove
+  Client.findOneAndRemove({ _id: clientId }, function (err, deletedClient) {
+    res.json(deletedClient);
+  });
 });
 
 module.exports = router;
