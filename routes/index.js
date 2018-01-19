@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const ENV = require('../app-env');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/lawnTracker');
+const db = mongoose.connection;
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+const Clients = require('../models/client');
 
 const googleMapsAPIKey = ENV.GOOGLE_MAPS_API;
 
@@ -39,9 +45,9 @@ router.get('/api', function api_index (req, res){
 
 // Show all clients
 router.get('/api/clients', function showClients (req, res) {
-	res.json({
-		message: "Show all clients"
-	});
+	Clients.find(function(err, clients) {
+    res.json( clients);
+  });
 });
 
 // Show new client form
