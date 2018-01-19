@@ -93,18 +93,18 @@ app.get('/auth/google',
 );
 
 // <- Google
-// app.get('/auth/google/callback',
-//   passport.authenticate('google', { 
-//     successRedirect: '/', failureRedirect: '/' 
-//   })
-// );  
-
-app.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    console.log(req.user);
-    res.redirect('/');
-  });
+app.get('/auth/google/callback',
+  passport.authenticate('google', { 
+    successRedirect: '/', failureRedirect: '/' 
+  })
+);  
+// Another way to handle return auth from Google
+// app.get('/auth/google/callback', 
+//   passport.authenticate('google', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     console.log(req.user);
+//     res.redirect('/');
+//   });
 
 // Log out
 app.get('/logout', (req, res) => {
@@ -113,15 +113,7 @@ app.get('/logout', (req, res) => {
   res.redirect('/')
 }); 
 
-// Home page
-app.get('/', function(req, res){
-  console.log(req.user);
-  res.render('index', {
-    title: 'Hello',
-    // user: globalUser
-    user: req.user
-  });
-});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

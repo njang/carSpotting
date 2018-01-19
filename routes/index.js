@@ -15,15 +15,24 @@ const googleMapsAPIKey = ENV.GOOGLE_MAPS_API;
  * ROUTES *
  **********/
 
+// Home page
+router.get('/', function homepage (req, res, next){
+  console.log(req.user);
+  res.render('index', {
+    title: 'Lawn Tracker',
+    user: req.user,
+  	googleMapsAPIKey: googleMapsAPIKey
+  });
+});
+
 /* GET home page. */
 // router.get('/', function homepage (req, res, next) {
 //   console.log(req.user);
 //   console.log(User);
 
 //   res.render('index', { 
-//   	title: 'Lawn Tracker',
-//   	user: User,
-//   	googleMapsAPIKey: googleMapsAPIKey
+//    title: 'Lawn Tracker',
+//    user: User,
 //   });
 // });
 
