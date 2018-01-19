@@ -3,26 +3,64 @@ const router = express.Router();
 const User = require('../models/user');
 const ENV = require('../app-env');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/lawnTracker');
+const passport = require('passport');
+mongoose.connect('mongodb://localhost:27017/lawnTracker');
+
 const db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-const Clients = require('../models/client');
 
+const Clients = require('../models/client');
 const googleMapsAPIKey = ENV.GOOGLE_MAPS_API;
 
 /**********
  * ROUTES *
  **********/
 
-/* GET home page. */
-router.get('/', function homepage (req, res, next) {
-  res.render('index', { 
-  	title: 'Lawn Tracker',
-  	user: User,
+// Home page
+router.get('/', function homepage (req, res, next){
+  res.render('index', {
+    title: 'Lawn Tracker',
+    user: req.user,
   	googleMapsAPIKey: googleMapsAPIKey
   });
 });
+
+// Log out
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/')
+}); 
+
+// Finish setting up the Sessions
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+// -> Google
+router.get('/auth/google', 
+  passport.authenticate('google', { 
+    scope: "email" 
+  })
+);
+
+// <- Google
+router.get('/auth/google/callback',
+  passport.authenticate('google', { 
+    successRedirect: '/', failureRedirect: '/' 
+  })
+);  
+// Another way to handle return auth from Google
+// app.get('/auth/google/callback', 
+//   passport.authenticate('google', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     console.log(req.user);
+//     res.redirect('/');
+//   });
 
 /* JSON API Endpoints */
 router.get('/api', function api_index (req, res){
@@ -46,7 +84,7 @@ router.get('/api', function api_index (req, res){
 // Show all clients
 router.get('/api/clients', function showClients (req, res) {
 	Clients.find(function(err, clients) {
-    res.json( clients);
+    res.json( clients );
   });
 });
 
@@ -57,22 +95,39 @@ router.get('/api/clients/new', function newClientForm (req, res) {
 	});
 });
 
-// Create a client
+// Create a new client
 router.post('/api/clients', function createClient (req, res) {
 	res.json({
-		message: "Create a client"
+		message: "Create a new client"
 	});
 });
 
 // Show client with :id
 router.get('/api/clients/:id', function findClient (req, res) {
-	res.json({
-		message: "Show client with :id"
+  let clientId = req.params.id;
+  // res.json( clientId );
+  Clients.findOne({ _id: clientId }, function (err, foundClient) {
+		res.json( foundClient );
 	});
 });
 
 // Edit client with :id
 router.get('/api/clients/:id/edit', function editClient (req, res) {
+  let clientId = req.params.id;
+  Clients.findOne({ _id: clientId }, function (err, foundClient) {
+    // update the todos's attributes
+    foundClient.name = req.body.name;
+    foundClient.phone = req.body.phone;
+    // foundClient.location = req.body.location;
+		foundClient.lawn.lotSize = req.body.lotSize;
+    foundClient.lawn.turfType = req.body.turfType;
+    foundClient.lawn.lastMowed = req.body.lastMowed;
+
+    // save updated todo in db
+    foundClient.save(function (err, savedClient) {
+      res.json(savedClient);
+    });
+  });
 	res.json({
 		message: "Edit client with :id"
 	});
@@ -94,9 +149,11 @@ router.get('/api/clients/:id/delete', function deleteClientForm (req, res) {
 
 // Delete client with :id
 router.delete('/api/clients/:id', function deleteClient (req, res) {
-	res.json({
-		message: "Delete client with :id"
-	});
+  let clientId = req.params.id;
+  // find todo in db by id and remove
+  Client.findOneAndRemove({ _id: clientId }, function (err, deletedClient) {
+    res.json(deletedClient);
+  });
 });
 
 module.exports = router;

@@ -14,7 +14,6 @@ const findOrCreate = require('mongoose-findorcreate');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
-// const db = require('./models');
 
 // Middleware
 app.use(cookieParser());
@@ -33,7 +32,6 @@ app.use(favicon(path.join(__dirname, 'public/images', 'favicon.png')));
 const googleClientKey = ENV.GOOGLE_CLIENT_ID;
 const googleClientSecret = ENV.GOOGLE_CLIENT_SECRET;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-// app.use(app.router);
 
 app.use('/', index);
 app.use('/users', users);
@@ -72,40 +70,6 @@ passport.use(new GoogleStrategy({
 /**********
  * SERVER *
  **********/
-
-// Finish setting up the Sessions
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
-
-// -> Google
-app.get('/auth/google', 
-  passport.authenticate('google', { 
-    scope: "email" 
-  })
-);
-
-// <- Google
-app.get('/auth/google/callback',
-  passport.authenticate('google', { 
-    successRedirect: '/', failureRedirect: '/' 
-  })
-);  
-
-// Log out
-app.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/')
-}); 
-
-// Home page
-app.get('/', function(req, res){
-  res.render('index', {user: req.user});
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
