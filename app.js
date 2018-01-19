@@ -48,15 +48,64 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://127.0.0.1:3000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-		User.findOrCreate({ 'google.id': profile.id }, function (err, user) {
-			return done(err, user);
-		});
+    //check user table for anyone with a google ID of profile.id
+    User.findOne({ 'google.id': profile.id }, function(err, user) {
+      if (err) {
+        return done(err);
+      }
+      //No user was found... so create a new user with values from Google (all the profile. stuff)
+      if (!user) {
+        // console.log('not founds oozer');
+        user = new User({ google: profile });
+        user.save(function(err) {
+          if (err) console.log(err);
+          return done(err, user);
+        });
+      } else {
+        //found user. Return
+        return done(err, user);
+      }
+    });
   }
 ));
 
 /**********
  * SERVER *
  **********/
+
+// Finish setting up the Sessions
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+// -> Google
+app.get('/auth/google', 
+  passport.authenticate('google', { 
+    scope: "email" 
+  })
+);
+
+// <- Google
+app.get('/auth/google/callback',
+  passport.authenticate('google', { 
+    successRedirect: '/', failureRedirect: '/' 
+  })
+);  
+
+// Log out
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/')
+}); 
+
+// Home page
+app.get('/', function(req, res){
+  res.render('index', {user: req.user});
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -75,14 +124,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-app.get('/', function(req, res){
-  res.render('index', {user: "req.user"});
-});
-
-app.get('/logout', () => {
-  req.logout();
-  res.redirect('/')
-});    
 
 module.exports = app;

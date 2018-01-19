@@ -3,11 +3,14 @@
 
 	<h1>GOOGLE LOGIN USING PASSPORT</h1>
 	  <div>
-
       <% if (user) { %>
         <h2> Below is the data sent by google</h2>
         <pre>
-          <%= user.google %>
+          <% if (user.google) { %>
+            <% user.google %>
+          <% } else { %>
+            No user.google
+          <% } %>
         </pre>
         <a href="/logout">Logout</a>
       <% } else { %>
