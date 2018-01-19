@@ -11,3 +11,31 @@ a {
 	height: 400px;
 	width: 100%;
 }
+
+@media screen and (max-width: 480px) {
+    body {
+    	padding: 0px;
+    }
+}
+
+div.scrollmenu {
+    background-color: #fff;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+div.scrollmenu a {
+    background-color: #333;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    width: 180px;
+    padding: 14px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+div.scrollmenu a:hover {
+    background-color: #777;
+}

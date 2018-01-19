@@ -1,3 +1,5 @@
+var db = require("./models");
+
 let locations = [
 	{coords: {lat: 30.578229, lng: -96.312584}},
 	{coords: {lat: 30.583794, lng: -96.308351}},
