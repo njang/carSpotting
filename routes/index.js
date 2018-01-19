@@ -46,7 +46,7 @@ router.get('/api', function api_index (req, res){
 // Show all clients
 router.get('/api/clients', function showClients (req, res) {
 	Clients.find(function(err, clients) {
-    res.json( clients);
+    res.json( clients );
   });
 });
 
@@ -67,8 +67,16 @@ router.post('/api/clients', function createClient (req, res) {
 // Show client with :id
 router.get('/api/clients/:id', function findClient (req, res) {
   let clientId = req.params.id;
-	// find todo in db by id
-  Client.findOne({ _id: clientId }, function (err, foundClient) {
+  // res.json( clientId );
+  Clients.findOne({ _id: clientId }, function (err, foundClient) {
+		res.json( foundClient );
+	});
+});
+
+// Edit client with :id
+router.get('/api/clients/:id/edit', function editClient (req, res) {
+  let clientId = req.params.id;
+  Clients.findOne({ _id: clientId }, function (err, foundClient) {
     // update the todos's attributes
     foundClient.name = req.body.name;
     foundClient.phone = req.body.phone;
@@ -76,21 +84,12 @@ router.get('/api/clients/:id', function findClient (req, res) {
 		foundClient.lawn.lotSize = req.body.lotSize;
     foundClient.lawn.turfType = req.body.turfType;
     foundClient.lawn.lastMowed = req.body.lastMowed;
-  // }
 
     // save updated todo in db
     foundClient.save(function (err, savedClient) {
       res.json(savedClient);
     });
   });
-
-	// res.json({
-	// 	message: "Show client with :id"
-	// });
-});
-
-// Edit client with :id
-router.get('/api/clients/:id/edit', function editClient (req, res) {
 	res.json({
 		message: "Edit client with :id"
 	});
