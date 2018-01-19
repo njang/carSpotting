@@ -42,6 +42,7 @@ app.use('/users', users);
 //   Strategies in Passport require a `verify` function, which accept
 //   credentials (in this case, an accessToken, refreshToken, and Google
 //   profile), and invoke a callback with a user object.
+let globalUser;
 passport.use(new GoogleStrategy({
     clientID: googleClientKey,
     clientSecret: googleClientSecret,
@@ -59,9 +60,11 @@ passport.use(new GoogleStrategy({
         user = new User({ google: profile });
         user.save(function(err) {
           if (err) console.log(err);
+          globalUser = user;
           return done(err, user);
         });
       } else {
+        globalUser = user;
         //found user. Return
         return done(err, user);
       }
@@ -90,21 +93,33 @@ app.get('/auth/google',
 );
 
 // <- Google
-app.get('/auth/google/callback',
-  passport.authenticate('google', { 
-    successRedirect: '/', failureRedirect: '/' 
-  })
-);  
+// app.get('/auth/google/callback',
+//   passport.authenticate('google', { 
+//     successRedirect: '/', failureRedirect: '/' 
+//   })
+// );  
+
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    console.log(req.user);
+    res.redirect('/');
+  });
 
 // Log out
 app.get('/logout', (req, res) => {
+  globalUser = undefined;
   req.logout();
   res.redirect('/')
 }); 
 
 // Home page
 app.get('/', function(req, res){
-  res.render('index', {user: req.user});
+  console.log(req.user);
+  res.render('index', {
+    title: 'Hello',
+    user: globalUser
+  });
 });
 
 // catch 404 and forward to error handler

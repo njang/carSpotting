@@ -16,13 +16,16 @@ const googleMapsAPIKey = ENV.GOOGLE_MAPS_API;
  **********/
 
 /* GET home page. */
-router.get('/', function homepage (req, res, next) {
-  res.render('index', { 
-  	title: 'Lawn Tracker',
-  	user: User,
-  	googleMapsAPIKey: googleMapsAPIKey
-  });
-});
+// router.get('/', function homepage (req, res, next) {
+//   console.log(req.user);
+//   console.log(User);
+
+//   res.render('index', { 
+//   	title: 'Lawn Tracker',
+//   	user: User,
+//   	googleMapsAPIKey: googleMapsAPIKey
+//   });
+// });
 
 /* JSON API Endpoints */
 router.get('/api', function api_index (req, res){
