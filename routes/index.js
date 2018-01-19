@@ -3,15 +3,14 @@ const router = express.Router();
 const User = require('../models/user');
 const ENV = require('../app-env');
 const mongoose = require('mongoose');
+const passport = require('passport');
 mongoose.connect('mongodb://localhost:27017/lawnTracker');
 
 const db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-
 const Clients = require('../models/client');
-
 const googleMapsAPIKey = ENV.GOOGLE_MAPS_API;
 
 /**********
@@ -20,7 +19,6 @@ const googleMapsAPIKey = ENV.GOOGLE_MAPS_API;
 
 // Home page
 router.get('/', function homepage (req, res, next){
-  console.log(req.user);
   res.render('index', {
     title: 'Lawn Tracker',
     user: req.user,
@@ -33,6 +31,36 @@ router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/')
 }); 
+
+// Finish setting up the Sessions
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+// -> Google
+router.get('/auth/google', 
+  passport.authenticate('google', { 
+    scope: "email" 
+  })
+);
+
+// <- Google
+router.get('/auth/google/callback',
+  passport.authenticate('google', { 
+    successRedirect: '/', failureRedirect: '/' 
+  })
+);  
+// Another way to handle return auth from Google
+// app.get('/auth/google/callback', 
+//   passport.authenticate('google', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     console.log(req.user);
+//     res.redirect('/');
+//   });
 
 /* JSON API Endpoints */
 router.get('/api', function api_index (req, res){
