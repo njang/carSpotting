@@ -1,25 +1,10 @@
 
 <% include ../partials/header %>
-
-	<h1>GOOGLE LOGIN USING PASSPORT</h1>
-	  <div>
-      <% if (user) { %>
-        <h2> Below is the data sent by google</h2>
-        <pre>
-          <% if (user.google) { %>
-            <% user.google %>
-          <% } else { %>
-            No user.google
-          <% } %>
-        </pre>
-        <a href="/logout">Logout</a>
-      <% } else { %>
-        <a href="/auth/google">Login with Google</a>
-      <% } %>
-	  </div>
+<%# include ../partials/login %>
 
     <h1><%= title %></h1>
     <div id="geocode"></div>
     <div id="map"></div>
 
+<% include ../partials/cards %>
 <% include ../partials/footer %>
