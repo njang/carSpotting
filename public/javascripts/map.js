@@ -32,15 +32,17 @@ function initMap() {
 	//   icon: 'images/grassIcon_32x32.png'
 	// });
 
-	// var infoWindow = new google.maps.InfoWindow({
-	// 	content: '<h3>College Station</h3><p>Welcome to Aggieland!</p>'
-	// });
+
 
 
 	const addMarker = (props) => {
 		let marker = new google.maps.Marker({
-		  position: props.coordinates,
+		  position: props.location.coordinates,
 		  map: map
+		});
+
+		let infoWindow = new google.maps.InfoWindow({
+			content: props.name
 		});
 
 		// Check for custom icon
@@ -53,7 +55,7 @@ function initMap() {
 			});
 		}
 	}
-	addMarker(bcs);
+	// addMarker(bcs);
 	// for (let i = 0; i < locations.length; i++) {
 	// 	addMarker(locations[i]);
 	// }
@@ -64,7 +66,7 @@ function initMap() {
 	    clientList = clients;
 	    clients.forEach(function(client) {
 	      // console.log(client.name);
-	      addMarker(client.location);
+	      addMarker(client);
 	    });
 	  });
 	});
