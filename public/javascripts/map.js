@@ -41,15 +41,15 @@ function initMap() {
 		  map: map
 		});
 
-		let infoWindow = new google.maps.InfoWindow({
-			content: props.name
+		var infoWindow = new google.maps.InfoWindow({
+			content: '<h3>' + props.name + '</h3><p>' + props.phone + '</p>'
 		});
 
 		// Check for custom icon
 		if(props.icon) {
 			marker.setIcon(props.icon);
 		}
-		if(props.content) {
+		if(props.name) {
 			marker.addListener('click', function(){
 				infoWindow.open(map, marker);
 			});
