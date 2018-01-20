@@ -26,11 +26,14 @@ router.get('/', function homepage (req, res, next){
   });
 });
 
-// Log out
+// Route for logging out
 router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/')
-}); 
+  req.session.destroy(function(event){
+    req.logout();
+    res.redirect('/');
+  });
+});
+
 
 // Finish setting up the Sessions
 passport.serializeUser(function(user, done) {
