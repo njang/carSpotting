@@ -39,3 +39,10 @@ div.scrollmenu a {
 div.scrollmenu a:hover {
     background-color: #777;
 }
+
+.clientCard {
+    border: solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
