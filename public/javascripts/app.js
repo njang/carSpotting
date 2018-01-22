@@ -18,7 +18,7 @@ $(document).ready(function() {
   });
 
   // Add a button to add new client.
-  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'Add client'}));
+  $('#add-client').append($('<div>', {class: 'btn btn-danger btn-add-client material-icons md-3', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'add'}));
 });
 
 
@@ -30,30 +30,31 @@ $(document).on('click', '.saveNewClient', (e) => {
   console.log('Address: ' + e.target.parentElement.address.value);
   console.log('Phone: ' + formatPhoneNumber(e.target.parentElement.phone.value));
 
-  // let endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
-  // let input = endpoint + encodeURIComponent(e.target.parentElement.address.value);
-  // let geocodeResult = {};
-  // const geocodeSuccess = (responseData) => {
-  //   let message = '';
-  //   switch (responseData.status) {
-  //     case 'OK':
-  //       message = responseData.results[0].formatted_address + ", " + responseData.results[0].geometry.location.lat + ", " + responseData.results[0].geometry.location.lng;
-  //       break;
-  //     case 'ZERO_RESULTS':
-  //       message = 'No coordinates found';
-  //       break;
-  //     default:
-  //       message = responseData.status;
-  //   }
-  //   // console.log(message);
-  //   geocodeResult = {"streetAddress": responseData.results[0].formatted_address,
-  //     "coordinates": {
-  //       "lat": responseData.results[0].geometry.location.lat,
-  //       "lng": responseData.results[0].geometry.location.lng
-  //     }
-  //   };
-  //   return geocodeResult;
-  // };
+  let endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
+  let input = endpoint + encodeURIComponent(e.target.parentElement.address.value);
+  let geocodeResult = {};
+
+  const geocodeSuccess = (responseData) => {
+    let message = '';
+    switch (responseData.status) {
+      case 'OK':
+        message = responseData.results[0].formatted_address + ", " + responseData.results[0].geometry.location.lat + ", " + responseData.results[0].geometry.location.lng;
+        break;
+      case 'ZERO_RESULTS':
+        message = 'No coordinates found';
+        break;
+      default:
+        message = responseData.status;
+    }
+    // console.log(message);
+    geocodeResult = {"streetAddress": responseData.results[0].formatted_address,
+      "coordinates": {
+        "lat": responseData.results[0].geometry.location.lat,
+        "lng": responseData.results[0].geometry.location.lng
+      }
+    };
+    return geocodeResult;
+  };
 
   // $.ajax({
   //   // Define the kind of request as 'GET'
@@ -67,19 +68,23 @@ $(document).on('click', '.saveNewClient', (e) => {
   //   // }
   // });
 
-  $.ajax({
-    method: 'POST',
-    url: '/api/clients',
-    data: {
-      name: e.target.parentElement.name.value,
-      location: {
-        streetAddress: e.target.parentElement.address.value
-      },
-      phone: e.target.parentElement.phone.value
-    },
-    success: newClientSuccess,
-    error: newClientError
-  });
+  // $.ajax({
+  //   method: 'POST',
+  //   url: '/api/clients',
+  //   data: {
+  //     name: e.target.parentElement.name.value,
+  //     location: {
+  //       streetAddress: e.target.parentElement.address.value,
+  //       coordinates: {
+  //         lat: ,  
+  //         lng:
+  //       }
+  //     },
+  //     phone: e.target.parentElement.phone.value
+  //   },
+  //   success: newClientSuccess,
+  //   error: newClientError
+  // });
 
   // location: {
   //   streetAddress: String,

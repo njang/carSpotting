@@ -66,3 +66,17 @@ div.scrollmenu a:hover {
 .material-icons.md-2 { font-size: 2em; }
 .material-icons.md-3 { font-size: 3em; }
 .material-icons.md-4 { font-size: 4em; }
+
+#add-client {
+    position: fixed;
+    bottom: 2.0em;
+    right: 2.0em;
+    z-index: 1;
+    text-align: center;
+}
+.btn-add-client {    
+    /*text-align: center;*/
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 0.75em;
+}
