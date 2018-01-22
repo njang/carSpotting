@@ -25,14 +25,17 @@ $(document).ready(function() {
   $('.btn-add-client').on('click', function() {
     console.log('Button clicked: add client');
   });
-  $('.btn-edit-client').on('click', function() {
-    console.log('Button clicked: edit client');
-    // handleDeleteClientClick();
-  });
-  $('.btn-remove-client').on('click', function() {
-    console.log('Button clicked: remove client');
-  });
 });
+
+
+$(document).on('click', '.btn-edit-client', function() {
+  console.log('Button clicked: edit client');
+});
+
+$(document).on('click', '.btn-remove-client', function() {
+  console.log('Button clicked: remove client');
+});
+
 
 // function init() {
 // }
