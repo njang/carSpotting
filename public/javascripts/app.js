@@ -45,7 +45,7 @@ const clientCard = (client) => {
 
   // A row to display the client name on top of the card
   let divElement = $('<div>' , {class: 'card-row-user row', 'data-toggle': 'collapse', href: '#panel-' + client._id});
-  divElement.append($('<i>', {class: 'col col-2 material-icons text-success', text: 'person'}));
+  divElement.append($('<i>', {class: 'col col-2 material-icons text-success text-right', text: 'person'}));
   divElement.append($('<h4>', {class: 'col col-10', text: client.name}));
   cardElement.append(divElement);
 
@@ -54,19 +54,19 @@ const clientCard = (client) => {
 
   // A row to display the client's address
   divElement = $('<div>', {class: 'card-row-address row'});
-  divElement.append($('<i>', {class: 'col col-2 material-icons', text: 'home'}));
+  divElement.append($('<i>', {class: 'col col-2 material-icons text-right', text: 'home'}));
   divElement.append($('<p>', {class: 'col col-10', html: formatAddress(client.location.streetAddress)}));
   infoElement.append(divElement);
 
   // A row to display the client's phone number. 
   divElement = $('<div>' , {class: 'card-row-phone row'});
-  divElement.append($('<i>', {class: 'col col-2 material-icons', text: 'phone'}));
+  divElement.append($('<i>', {class: 'col col-2 material-icons text-right', text: 'phone'}));
   divElement.append($('<a>', {class: 'col col-10', href: 'tel:' + client.phone, text: formatPhoneNumber(client.phone)}));
   infoElement.append(divElement);
 
   // A row to display pertinent lawn information
   divElement = $('<div>' , {class: 'card-row-lawn row'});
-  divElement.append($('<i>', {class: 'col col-2 material-icons', text: 'schedule'}));
+  divElement.append($('<i>', {class: 'col col-2 material-icons text-right', text: 'schedule'}));
   divElement.append($('<p>', {class: 'col col-10', text: 'Last mowed: ' + howLongSince(client.lawn.lastMowed)}));
   infoElement.append(divElement);   
 
@@ -107,7 +107,7 @@ const howLongSince = (timeOfEvent) => {
 // function handleDeleteClientClick(event) {
 const handleDeleteClientClick = (e) => {
   e.preventDefault();
-  let targetId = e.target.parentElement.parentElement.dataset.clientId;
+  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
   let url = '/api/clients/' + targetId;
   console.log('Request to delete ' + targetId);
   // debugger;
