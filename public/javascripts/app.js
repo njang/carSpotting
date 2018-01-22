@@ -18,24 +18,43 @@ $(document).ready(function() {
   });
 
   // Add a button to add new client.
-  // $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
-  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', text: 'Add client'}));
-
-  // Assign button functions for adding, editing, and removing client
-  $('.btn-add-client').on('click', function() {
-    console.log('Button clicked: add client');
-  });
+  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
 });
 
 
-$(document).on('click', '.btn-edit-client', function() {
-  console.log('Button clicked: edit client');
+$('#saveNewClient').on('submit', (e) => {
+  e.preventDefault();
+  debugger;
+  // $.ajax({
+  //   method: 'POST',
+  //   url: '/api/albums',
+  //   data: {
+  //     name: e.currentTarget["1"].value,
+  //     artistName: e.currentTarget["2"].value,
+  //     releaseDate: e.currentTarget["3"].value,
+  //     genres: e.currentTarget["4"].value.split(',')
+  //   },
+  //   success: newAlbumSuccess,
+  //   error: newAlbumError
+  // });
 });
 
+
+// Link editClient function to edit buttons
+$(document).on('click', '.btn-edit-client', function(e) {
+  editClient(e);
+});
+
+// Link removeClient function to remove buttons
 $(document).on('click', '.btn-remove-client', function(e) {
   // console.log('Button clicked: remove client');
-  handleDeleteClientClick(e);
+  removeClient(e);
 });
+
+
+
+
+
 
 // Assemble client cards
 const clientCard = (client) => {
@@ -71,7 +90,7 @@ const clientCard = (client) => {
   infoElement.append(divElement);   
 
   divElement = $('<div>' , {class: 'card-row row'});
-  // divElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'Remove', onclick: 'handleDeleteClientClick()'}));
+  // divElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'Remove', onclick: 'deleteClient()'}));
   divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-edit-client btn-basic', text: 'Edit'}));
   divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-remove-client btn-danger', text: 'Remove'}));
   infoElement.append(divElement);   
@@ -104,8 +123,14 @@ const howLongSince = (timeOfEvent) => {
   return message;
 }
 
-// function handleDeleteClientClick(event) {
-const handleDeleteClientClick = (e) => {
+const editClient = (e) => {
+  e.preventDefault();
+  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
+  let url = '/api/clients/' + targetId;
+  console.log('Request to edit ' + targetId);
+}
+
+const removeClient = (e) => {
   e.preventDefault();
   let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
   let url = '/api/clients/' + targetId;
