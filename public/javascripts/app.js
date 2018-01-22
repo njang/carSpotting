@@ -1,5 +1,7 @@
 
 (() => {
+
+  // Retrieve the client database and render them into card format.
   $.ajax({
     method: 'GET',
     url: '/api/clients',
@@ -10,6 +12,7 @@
     }
   });
 
+  // 
   $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
   $('.btn-remove-client').on('click', function() {
     handleDeleteClientClick();
@@ -110,3 +113,5 @@ const deleteOne = (albumId) => {
     }
   }); 
 }
+
+init();
