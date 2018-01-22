@@ -98,11 +98,22 @@ router.get('/api/clients/new', function newClientForm (req, res) {
 	});
 });
 
+
+
 // Create a new client
 router.post('/api/clients', function createClient (req, res) {
-	res.json({
-		message: "Create a new client"
-	});
+  let client = new db.Clients(req.body);
+  console.log(client);
+  client.save((err, createdClient) => {
+    if (err) {
+        res.status(500).send(err);
+    }
+    res.status(200).send(createdClient);
+  });
+
+	// res.json({
+	// 	message: "Create a new client"
+	// });
 });
 
 // Show client with :id

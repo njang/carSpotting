@@ -18,26 +18,95 @@ $(document).ready(function() {
   });
 
   // Add a button to add new client.
-  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
+  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'Add client'}));
 });
 
 
-$('#saveNewClient').on('submit', (e) => {
+$(document).on('click', '.saveNewClient', (e) => {
   e.preventDefault();
-  debugger;
+  
+  console.log('Saving new client');
+  console.log('Name: ' + e.target.parentElement.name.value);
+  console.log('Address: ' + e.target.parentElement.address.value);
+  console.log('Phone: ' + formatPhoneNumber(e.target.parentElement.phone.value));
+
+  // let endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
+  // let input = endpoint + encodeURIComponent(e.target.parentElement.address.value);
+  // let geocodeResult = {};
+  // const geocodeSuccess = (responseData) => {
+  //   let message = '';
+  //   switch (responseData.status) {
+  //     case 'OK':
+  //       message = responseData.results[0].formatted_address + ", " + responseData.results[0].geometry.location.lat + ", " + responseData.results[0].geometry.location.lng;
+  //       break;
+  //     case 'ZERO_RESULTS':
+  //       message = 'No coordinates found';
+  //       break;
+  //     default:
+  //       message = responseData.status;
+  //   }
+  //   // console.log(message);
+  //   geocodeResult = {"streetAddress": responseData.results[0].formatted_address,
+  //     "coordinates": {
+  //       "lat": responseData.results[0].geometry.location.lat,
+  //       "lng": responseData.results[0].geometry.location.lng
+  //     }
+  //   };
+  //   return geocodeResult;
+  // };
+
   // $.ajax({
-  //   method: 'POST',
-  //   url: '/api/albums',
-  //   data: {
-  //     name: e.currentTarget["1"].value,
-  //     artistName: e.currentTarget["2"].value,
+  //   // Define the kind of request as 'GET'
+  //   method: 'GET',  
+  //   // The URL for the request
+  //   url: input,   
+  //   // Code to run if the request succeeds 
+  //   success: geocodeSuccess
+  //   // success: {
+  //   //   geocodeResult = geocodeSuccess()
+  //   // }
+  // });
+
+  $.ajax({
+    method: 'POST',
+    url: '/api/clients',
+    data: {
+      name: e.target.parentElement.name.value,
+      location: {
+        streetAddress: e.target.parentElement.address.value
+      },
+      phone: e.target.parentElement.phone.value
+    },
+    success: newClientSuccess,
+    error: newClientError
+  });
+
+  // location: {
+  //   streetAddress: String,
+  //   coordinates: {
+  //     lat: Number,
+  //     lng: Number
+  //   }
+  // },
+
+  //     address: e.currentTarget["2"].value,
   //     releaseDate: e.currentTarget["3"].value,
   //     genres: e.currentTarget["4"].value.split(',')
-  //   },
-  //   success: newAlbumSuccess,
-  //   error: newAlbumError
-  // });
+
+
+  // Empty the form fields
+  e.target.parentElement.reset();
 });
+
+
+
+function newClientSuccess(json) {
+  console.log('new client success!');
+}
+
+function newClientError() {
+  console.log('new client error!');
+}
 
 
 // Link editClient function to edit buttons
