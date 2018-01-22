@@ -75,11 +75,9 @@ div.scrollmenu a:hover {
     text-align: center;
 }
 .btn-add-client {    
-    text-align: center;
-    font-size: 3.0em;
-    font-weight: bold;
-    width: 1.0em;
-    height: 1.0em;
-    border-radius: 0.5em;
+    /*text-align: center;*/
+    width: 2.0em;
+    height: 2.0em;
+    border-radius: 1.0em;
     padding: 0;
 }

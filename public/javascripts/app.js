@@ -18,7 +18,7 @@ $(document).ready(function() {
   });
 
   // Add a button to add new client.
-  $('#add-client').append($('<div>', {class: 'btn btn-danger btn-add-client material-icons md-3', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'add'}));
+  $('#add-client').append($('<button>', {class: 'btn btn-danger btn-add-client align-top text-center material-icons md-2', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'library_add'}));
 });
 
 
@@ -68,23 +68,19 @@ $(document).on('click', '.saveNewClient', (e) => {
   //   // }
   // });
 
-  // $.ajax({
-  //   method: 'POST',
-  //   url: '/api/clients',
-  //   data: {
-  //     name: e.target.parentElement.name.value,
-  //     location: {
-  //       streetAddress: e.target.parentElement.address.value,
-  //       coordinates: {
-  //         lat: ,  
-  //         lng:
-  //       }
-  //     },
-  //     phone: e.target.parentElement.phone.value
-  //   },
-  //   success: newClientSuccess,
-  //   error: newClientError
-  // });
+  $.ajax({
+    method: 'POST',
+    url: '/api/clients',
+    data: {
+      name: e.target.parentElement.name.value,
+      // location: {
+      //   streetAddress: e.target.parentElement.address.value
+      // },
+      phone: e.target.parentElement.phone.value
+    },
+    success: newClientSuccess,
+    error: newClientError
+  });
 
   // location: {
   //   streetAddress: String,
