@@ -129,7 +129,7 @@ $(document).on('click', '.btn-remove-client', function(e) {
 // Assemble client cards
 const clientCard = (client) => {
   // Initiate a client card
-  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-sm-12 col-md-4 col-lg-3', 'data-client-id': client._id});
+  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-xs-12 col-md-6 col-lg-4', 'data-client-id': client._id});
 
 
   // A row to display the client name on top of the card
