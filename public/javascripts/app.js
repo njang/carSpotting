@@ -5,32 +5,45 @@
     url: '/api/clients',
     success: (clients) => {
       clients.forEach((client) => {
-        clientCard(client);
+        $('#clients').append(clientCard(client));
       });
     }
   });
 
-  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
-
-  // $('.client').on('click', '.btn-remove-client', handleDeleteClientClick);
-  // $('.btn-remove-client').on('click', () => {
-  $('.btn-remove-client').click(() => {
-    console.log('Removing client!');
+  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', text: 'Add client'}));
+  // $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
+  $('.btn-remove-client').on('click', function() {
+    handleDeleteClientClick();
   });
+
 })();
 
+// problem with buttons having their click assignment loaded.
+// $(document).ready(function() {
+// });
+function init() {
+  $('.btn-remove-client').on('click', function() {
+    handleDeleteClientClick();
+  });
+}
+
+
+
 const clientCard = (client) => {
-  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col col-3'});
-  cardElement.append($('<i>', {class: 'material-icons', text: 'person'}));
+  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col col-4', 'data-client-id': client._id});
+  // let cardElement = $('<div>', {class: 'clientCard', 'data-client-id': client._id});
+  // cardElement.append($('<i>', {class: 'material-icons', text: 'person'}));
   cardElement.append($('<h4>', {text: client.name}));
-  cardElement.append($('<i>', {class: 'material-icons', text: 'home'}));
+  // cardElement.append($('<i>', {class: 'material-icons', text: 'home'}));
   cardElement.append($('<p>', {text: client.location.streetAddress}));
-  cardElement.append($('<i>', {class: 'material-icons', text: 'phone'}));
+  // cardElement.append($('<i>', {class: 'material-icons', text: 'phone'}));
   cardElement.append($('<a>', {href: 'tel:' + client.phone, text: formatPhoneNumber(client.phone)}));
-  cardElement.append($('<p>', {text: 'Last mowed: ' + Date(client.lawn.lastMowed)}));
+  // cardElement.append($('<p>', {text: 'Last mowed: ' + Date(client.lawn.lastMowed)}));
   // cardElement.append($('<i>', {class: 'btn material-icons', text: 'delete'}));                                       
+  // cardElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'remove', onclick: 'handleDeleteClientClick()'}));
   cardElement.append($('<button>', {class: 'btn btn-remove-client btn-danger', text: 'remove'}));
-  $('#clients').append(cardElement);
+  // $('#clients').append(cardElement);
+  return cardElement;
 }
 
 const formatPhoneNumber = (phoneNumber) => {
@@ -38,16 +51,21 @@ const formatPhoneNumber = (phoneNumber) => {
   return '(' + digits.slice(0, 3).join('') + ') ' + digits.slice(3, 6).join('') + '-' + digits.slice(-4).join('');
 }
 
-function handleDeleteClientClick(e) {
-  var targetId = $(this).parents('.client').data('_id');
+// function handleDeleteClientClick(event) {
+const handleDeleteClientClick = (e) => {
+  var targetId = $(this).parents('.clientCard').data('client-id');
   console.log('Request to delete ' + targetId);
-  // console.log('someone wants to delete album id=' + albumId );
-  // $.ajax({
-  //   method: 'DELETE',
-  //   url: ('/api/albums/' + albumId),
-  //   success: function() {
-  //     console.log("He's dead Jim");
-  //     $('[data-album-id='+ albumId + ']').remove();
-  //   }
-  // });
+  debugger;
+}
+
+// function to test delete function.
+const deleteOne = (albumId) => {
+  $.ajax({
+    method: 'DELETE',
+    url: ('/api/clients/' + albumId),
+    success: function() {
+      console.log("Deleted " + albumId);
+      $('[data-client-id='+ albumId + ']').remove();
+    }
+  }); 
 }
