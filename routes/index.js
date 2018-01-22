@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const Clients = require('../models/client');
 const ENV = require('../app-env');
 const mongoose = require('mongoose');
 const passport = require('passport');
 mongoose.connect('mongodb://localhost:27017/lawnTracker');
 
-const db = mongoose.connection;
-//Bind connection to error event (to get notification of connection errors)
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+// const db = mongoose.connection;
+// //Bind connection to error event (to get notification of connection errors)
+// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-const Clients = require('../models/client');
 const googleMapsAPIKey = ENV.GOOGLE_MAPS_API;
 
 /**********
@@ -154,9 +154,14 @@ router.get('/api/clients/:id/delete', function deleteClientForm (req, res) {
 router.delete('/api/clients/:id', function deleteClient (req, res) {
   let clientId = req.params.id;
   console.log('deleting id: ', clientId);
-  // // find todo in db by id and remove
-  Client.findOneAndRemove({ _id: clientId }, function (err, deletedClient) {
-    res.json(deletedClient);
+  debugger;
+  db.Clients.findOneAndRemove(clientId , function (err, deletedClient) {
+    // res.json(deletedClient);
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.status(200).send(deletedClient);
+
   });
   // db.clients.remove({_id: ObjectId(clientId)}, function(err) {
   //   if (err) { return console.log(err); }
