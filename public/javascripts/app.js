@@ -10,10 +10,8 @@
     }
   });
 
-  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client material-icons', text: 'add'}));
-  $('.btn-add-client').click(() => {
-    console.log('Adding new client');
-  });
+  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
+
   // $('.client').on('click', '.btn-remove-client', handleDeleteClientClick);
   // $('.btn-remove-client').on('click', () => {
   $('.btn-remove-client').click(() => {
@@ -31,7 +29,7 @@ const clientCard = (client) => {
   cardElement.append($('<a>', {href: 'tel:' + client.phone, text: formatPhoneNumber(client.phone)}));
   cardElement.append($('<p>', {text: 'Last mowed: ' + Date(client.lawn.lastMowed)}));
   // cardElement.append($('<i>', {class: 'btn material-icons', text: 'delete'}));                                       
-  cardElement.append($('<button>', {class: 'btn btn-remove-client btn-danger material-icons', text: 'remove'}));
+  cardElement.append($('<button>', {class: 'btn btn-remove-client btn-danger', text: 'remove'}));
   $('#clients').append(cardElement);
 }
 
