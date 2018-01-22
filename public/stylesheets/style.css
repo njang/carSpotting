@@ -43,6 +43,6 @@ div.scrollmenu a:hover {
 .clientCard {
     border: solid;
     border-radius: 1.0em;
-    padding: 0.5em 1.0em;
-    margin: 5px;
+    padding: 1.0em;
+    margin: 0.5em;
 }
