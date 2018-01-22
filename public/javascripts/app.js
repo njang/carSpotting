@@ -10,8 +10,7 @@
     }
   });
 
-  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', text: 'Add client'}));
-  // $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
+  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
   $('.btn-remove-client').on('click', function() {
     handleDeleteClientClick();
   });
