@@ -32,15 +32,12 @@ $(document).on('click', '.btn-edit-client', function() {
   console.log('Button clicked: edit client');
 });
 
-$(document).on('click', '.btn-remove-client', function() {
-  console.log('Button clicked: remove client');
+$(document).on('click', '.btn-remove-client', function(e) {
+  // console.log('Button clicked: remove client');
+  handleDeleteClientClick(e);
 });
 
-
-// function init() {
-// }
-
-// 
+// Assemble client cards
 const clientCard = (client) => {
   // Initiate a client card
   let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-sm-2 col-md-4', 'data-client-id': client._id});
@@ -103,19 +100,20 @@ const howLongSince = (timeOfEvent) => {
 
 // function handleDeleteClientClick(event) {
 const handleDeleteClientClick = (e) => {
-  var targetId = $(this).parents('.clientCard').data('client-id');
+  e.preventDefault();
+  let targetId = e.target.parentElement.parentElement.dataset.clientId;
+  let url = '/api/clients/' + targetId;
   console.log('Request to delete ' + targetId);
-  debugger;
-}
-
-// function to test delete function.
-const deleteOne = (albumId) => {
+  // debugger;
   $.ajax({
     method: 'DELETE',
-    url: ('/api/clients/' + albumId),
+    url: url,
     success: function() {
-      console.log("Deleted " + albumId);
-      $('[data-client-id='+ albumId + ']').remove();
+      console.log('Removed ' + targetId);
+      $('[data-client-id='+ targetId + ']').remove();
+    },
+    error: function() {
+      console.log('Remove client error!');
     }
   }); 
 }
