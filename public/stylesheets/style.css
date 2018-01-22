@@ -1,4 +1,5 @@
 body {
+  text-align: center;
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
@@ -45,8 +46,9 @@ div.scrollmenu a:hover {
 }
 
 .clientCard {
+    text-align: left;
     border: solid;
     border-radius: 1.0em;
     padding: 1.0em;
-    margin: 0.5em;
+    /*margin: 0.5em;*/
 }

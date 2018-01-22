@@ -5,7 +5,6 @@
     url: '/api/clients',
     success: (clients) => {
       clients.forEach((client) => {
-        // $('#clients').append(clientCard(client));
         clientCard(client);
       });
     }
@@ -23,39 +22,49 @@
 // });
 function init() {
   $('.btn-remove-client').on('click', function() {
-    handleDeleteClientClick();
+    console.log('Button clicked: remove client');
+    // handleDeleteClientClick();
+  });
+  $('.btn-edit-client').on('click', function() {
+    console.log('Button clicked: edit client');
+    // handleDeleteClientClick();
   });
 }
 
-
-
+// 
 const clientCard = (client) => {
-  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-sm-2 col-md-3', 'data-client-id': client._id});
+  // Initiate a client card
+  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-sm-2 col-md-4', 'data-client-id': client._id});
 
+  // A row to display the client name on top of the card
   let divElement = $('<div>' , {class: 'card-row-user row'});
   divElement.append($('<i>', {class: 'col col-2 material-icons text-success', text: 'person'}));
   divElement.append($('<h4>', {class: 'col col-10', text: client.name}));
   cardElement.append(divElement);
 
+  // A row to display the client's address
   divElement = $('<div>' , {class: 'card-row-address row'});
   divElement.append($('<i>', {class: 'col col-2 material-icons', text: 'home'}));
   divElement.append($('<p>', {class: 'col col-10', html: formatAddress(client.location.streetAddress)}));
   cardElement.append(divElement);
 
+  // A row to display the client's phone number. 
   divElement = $('<div>' , {class: 'card-row-phone row'});
   divElement.append($('<i>', {class: 'col col-2 material-icons', text: 'phone'}));
   divElement.append($('<a>', {class: 'col col-10', href: 'tel:' + client.phone, text: formatPhoneNumber(client.phone)}));
   cardElement.append(divElement);
 
+  // A row to display pertinent lawn information
   divElement = $('<div>' , {class: 'card-row-lawn row'});
   divElement.append($('<i>', {class: 'col col-2 material-icons', text: 'schedule'}));
   divElement.append($('<p>', {class: 'col col-10', text: 'Last mowed: ' + howLongSince(client.lawn.lastMowed)}));
   cardElement.append(divElement);   
 
-  // divElement = $('<div>' , {class: 'card-row row'});
-  // cardElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'remove', onclick: 'handleDeleteClientClick()'}));
-  // divElement.append($('<button>', {class: 'btn btn-remove-client btn-danger', text: 'remove'}));
-  // cardElement.append(divElement);   
+  divElement = $('<div>' , {class: 'card-row row'});
+  // divElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'Remove', onclick: 'handleDeleteClientClick()'}));
+  divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-edit-client btn-basic', text: 'Edit'}));
+  divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-remove-client btn-danger', text: 'Remove'}));
+  cardElement.append(divElement);   
   // return cardElement;
   $('#clients').append(cardElement);
 }
