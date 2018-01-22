@@ -1,22 +1,33 @@
 body {
   text-align: center;
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+nav {
+    padding: 1.0em;
+    margin: 0 auto 1.0em;
 }
 
 a {
   color: #00B7FF;
 }
 
+#clients {
+  padding: 3em;
+}
+
 #map {
-	height: 600px;
-	width: 100%;
+    height: 600px;
+    width: 100%;
 }
 
 @media screen and (max-width: 480px) {
     body {
-    	/*padding: 0px;*/
+        /*padding: 0px;*/
         width: 100%;
+    }
+    #clients {
+      padding: 0;
     }
     .card-row-phone, .card-row-lawn {
         display: none;
@@ -50,4 +61,22 @@ div.scrollmenu a:hover {
     border: solid;
     border-radius: 1.0em;
     padding: 1.0em;
+}
+
+.material-icons.md-2 { font-size: 2em; }
+.material-icons.md-3 { font-size: 3em; }
+.material-icons.md-4 { font-size: 4em; }
+
+#add-client {
+    position: fixed;
+    bottom: 2.0em;
+    right: 2.0em;
+    z-index: 1;
+    text-align: center;
+}
+.btn-add-client {    
+    /*text-align: center;*/
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 0.75em;
 }

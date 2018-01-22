@@ -1,11 +1,11 @@
 
-(() => {
-	// $('#geocode').append($('<form>', {text: 'Enter address'}));
-	$('#geocode').text('Enter address');
-	$('#geocode').append($('<input>', {type: 'text', id: 'address'}));
-	$('#geocode').append($('<button>', {type: 'submit', id: 'submit', text: 'Coordinates'}));
-	$('#geocode').append($('<span>', {id: 'gpsResult'}));
-})();
+// (() => {
+// 	// $('#geocode').append($('<form>', {text: 'Enter address'}));
+// 	$('#geocode').text('Enter address');
+// 	$('#geocode').append($('<input>', {type: 'text', id: 'address'}));
+// 	$('#geocode').append($('<button>', {type: 'submit', id: 'submit', text: 'Coordinates'}));
+// 	$('#geocode').append($('<span>', {id: 'gpsResult'}));
+// })();
 
 const endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
 

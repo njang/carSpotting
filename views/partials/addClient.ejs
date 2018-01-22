@@ -1,4 +1,4 @@
-<div id="modalReset" class="modal fade" role="dialog">
+<div id="modalNewClient" class="modal fade" role="dialog">
   <div class="modal-dialog modal-sm">
     <!-- Modal content-->
     <div class="modal-content">
@@ -8,20 +8,17 @@
       <div class="modal-body">
         <form>
         	<div>
-        		<input type="text" placeholder="Name" name="name">
+        		<input type="text" placeholder="Name" name="name" required>
         	</div>
         	<div>
-	        	<input type="text" placeholder="Address" name="address">
+	        	<input type="text" placeholder="Address" name="address" required>
         	</div>
         	<div>
-  	      	<input type="text" placeholder="Phone" name="phone">
+  	      	<input type="text" placeholder="Phone" name="phone" required>
         	</div>
-        	<button type="submit" class="btn btn-success">Save</button>
+        	<button type="submit" class="btn btn-success saveNewClient" data-dismiss="modal">Save</button>
+          <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="reset btn btn-success" data-dismiss="modal" default>Save</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>

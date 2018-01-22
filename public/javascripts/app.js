@@ -18,59 +18,158 @@ $(document).ready(function() {
   });
 
   // Add a button to add new client.
-  // $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
-  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', text: 'Add client'}));
-
-  // Assign button functions for adding, editing, and removing client
-  $('.btn-add-client').on('click', function() {
-    console.log('Button clicked: add client');
-  });
+  $('#add-client').append($('<div>', {class: 'btn btn-danger btn-add-client material-icons md-3', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'add'}));
 });
 
 
-$(document).on('click', '.btn-edit-client', function() {
-  console.log('Button clicked: edit client');
+$(document).on('click', '.saveNewClient', (e) => {
+  e.preventDefault();
+  
+  console.log('Saving new client');
+  console.log('Name: ' + e.target.parentElement.name.value);
+  console.log('Address: ' + e.target.parentElement.address.value);
+  console.log('Phone: ' + formatPhoneNumber(e.target.parentElement.phone.value));
+
+  let endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
+  let input = endpoint + encodeURIComponent(e.target.parentElement.address.value);
+  let geocodeResult = {};
+
+  const geocodeSuccess = (responseData) => {
+    let message = '';
+    switch (responseData.status) {
+      case 'OK':
+        message = responseData.results[0].formatted_address + ", " + responseData.results[0].geometry.location.lat + ", " + responseData.results[0].geometry.location.lng;
+        break;
+      case 'ZERO_RESULTS':
+        message = 'No coordinates found';
+        break;
+      default:
+        message = responseData.status;
+    }
+    // console.log(message);
+    geocodeResult = {"streetAddress": responseData.results[0].formatted_address,
+      "coordinates": {
+        "lat": responseData.results[0].geometry.location.lat,
+        "lng": responseData.results[0].geometry.location.lng
+      }
+    };
+    return geocodeResult;
+  };
+
+  // $.ajax({
+  //   // Define the kind of request as 'GET'
+  //   method: 'GET',  
+  //   // The URL for the request
+  //   url: input,   
+  //   // Code to run if the request succeeds 
+  //   success: geocodeSuccess
+  //   // success: {
+  //   //   geocodeResult = geocodeSuccess()
+  //   // }
+  // });
+
+  // $.ajax({
+  //   method: 'POST',
+  //   url: '/api/clients',
+  //   data: {
+  //     name: e.target.parentElement.name.value,
+  //     location: {
+  //       streetAddress: e.target.parentElement.address.value,
+  //       coordinates: {
+  //         lat: ,  
+  //         lng:
+  //       }
+  //     },
+  //     phone: e.target.parentElement.phone.value
+  //   },
+  //   success: newClientSuccess,
+  //   error: newClientError
+  // });
+
+  // location: {
+  //   streetAddress: String,
+  //   coordinates: {
+  //     lat: Number,
+  //     lng: Number
+  //   }
+  // },
+
+  //     address: e.currentTarget["2"].value,
+  //     releaseDate: e.currentTarget["3"].value,
+  //     genres: e.currentTarget["4"].value.split(',')
+
+
+  // Empty the form fields
+  e.target.parentElement.reset();
 });
 
+
+
+function newClientSuccess(json) {
+  console.log('new client success!');
+}
+
+function newClientError() {
+  console.log('new client error!');
+}
+
+
+// Link editClient function to edit buttons
+$(document).on('click', '.btn-edit-client', function(e) {
+  editClient(e);
+});
+
+// Link removeClient function to remove buttons
 $(document).on('click', '.btn-remove-client', function(e) {
   // console.log('Button clicked: remove client');
-  handleDeleteClientClick(e);
+  removeClient(e);
 });
+
+
+
+
+
 
 // Assemble client cards
 const clientCard = (client) => {
   // Initiate a client card
-  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-sm-2 col-md-4', 'data-client-id': client._id});
+  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-sm-12 col-md-4 col-lg-3', 'data-client-id': client._id});
+
 
   // A row to display the client name on top of the card
-  let divElement = $('<div>' , {class: 'card-row-user row'});
-  divElement.append($('<i>', {class: 'col col-2 material-icons text-success', text: 'person'}));
+  let divElement = $('<div>' , {class: 'card-row-user row', 'data-toggle': 'collapse', href: '#panel-' + client._id});
+  divElement.append($('<i>', {class: 'col col-2 material-icons text-success text-right', text: 'person'}));
   divElement.append($('<h4>', {class: 'col col-10', text: client.name}));
   cardElement.append(divElement);
 
+  // Add a collapsible section inside the card
+  let infoElement = $('<div>', {id: 'panel-' + client._id, class: 'collapse'}); 
+
   // A row to display the client's address
-  divElement = $('<div>' , {class: 'card-row-address row'});
-  divElement.append($('<i>', {class: 'col col-2 material-icons', text: 'home'}));
+  divElement = $('<div>', {class: 'card-row-address row'});
+  divElement.append($('<i>', {class: 'col col-2 material-icons text-right', text: 'home'}));
   divElement.append($('<p>', {class: 'col col-10', html: formatAddress(client.location.streetAddress)}));
-  cardElement.append(divElement);
+  infoElement.append(divElement);
 
   // A row to display the client's phone number. 
   divElement = $('<div>' , {class: 'card-row-phone row'});
-  divElement.append($('<i>', {class: 'col col-2 material-icons', text: 'phone'}));
+  divElement.append($('<i>', {class: 'col col-2 material-icons text-right', text: 'phone'}));
   divElement.append($('<a>', {class: 'col col-10', href: 'tel:' + client.phone, text: formatPhoneNumber(client.phone)}));
-  cardElement.append(divElement);
+  infoElement.append(divElement);
 
   // A row to display pertinent lawn information
   divElement = $('<div>' , {class: 'card-row-lawn row'});
-  divElement.append($('<i>', {class: 'col col-2 material-icons', text: 'schedule'}));
+  divElement.append($('<i>', {class: 'col col-2 material-icons text-right', text: 'schedule'}));
   divElement.append($('<p>', {class: 'col col-10', text: 'Last mowed: ' + howLongSince(client.lawn.lastMowed)}));
-  cardElement.append(divElement);   
+  infoElement.append(divElement);   
 
   divElement = $('<div>' , {class: 'card-row row'});
-  // divElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'Remove', onclick: 'handleDeleteClientClick()'}));
+  // divElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'Remove', onclick: 'deleteClient()'}));
   divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-edit-client btn-basic', text: 'Edit'}));
   divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-remove-client btn-danger', text: 'Remove'}));
-  cardElement.append(divElement);   
+  infoElement.append(divElement);   
+  
+  cardElement.append(infoElement);     
   // return cardElement;
   $('#clients').append(cardElement);
 }
@@ -98,10 +197,16 @@ const howLongSince = (timeOfEvent) => {
   return message;
 }
 
-// function handleDeleteClientClick(event) {
-const handleDeleteClientClick = (e) => {
+const editClient = (e) => {
   e.preventDefault();
-  let targetId = e.target.parentElement.parentElement.dataset.clientId;
+  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
+  let url = '/api/clients/' + targetId;
+  console.log('Request to edit ' + targetId);
+}
+
+const removeClient = (e) => {
+  e.preventDefault();
+  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
   let url = '/api/clients/' + targetId;
   console.log('Request to delete ' + targetId);
   // debugger;
