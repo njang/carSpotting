@@ -1,5 +1,10 @@
 
-(() => {
+// // IIFE for reference
+// (() => {
+// })();
+
+// problem with buttons having their click assignment loaded.
+$(document).ready(function() {
 
   // Retrieve the client database and render them into card format.
   $.ajax({
@@ -12,27 +17,25 @@
     }
   });
 
-  // 
-  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
-  $('.btn-remove-client').on('click', function() {
-    handleDeleteClientClick();
-  });
+  // Add a button to add new client.
+  // $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', 'data-toggle': 'modal', 'data-target': '#modalReset', text: 'Add client'}));
+  $('#add-client').append($('<button>', {class: 'btn btn-primary btn-add-client', text: 'Add client'}));
 
-})();
-
-// problem with buttons having their click assignment loaded.
-// $(document).ready(function() {
-// });
-function init() {
-  $('.btn-remove-client').on('click', function() {
-    console.log('Button clicked: remove client');
-    // handleDeleteClientClick();
+  // Assign button functions for adding, editing, and removing client
+  $('.btn-add-client').on('click', function() {
+    console.log('Button clicked: add client');
   });
   $('.btn-edit-client').on('click', function() {
     console.log('Button clicked: edit client');
     // handleDeleteClientClick();
   });
-}
+  $('.btn-remove-client').on('click', function() {
+    console.log('Button clicked: remove client');
+  });
+});
+
+// function init() {
+// }
 
 // 
 const clientCard = (client) => {
@@ -113,5 +116,3 @@ const deleteOne = (albumId) => {
     }
   }); 
 }
-
-init();
