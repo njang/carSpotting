@@ -153,10 +153,16 @@ router.get('/api/clients/:id/delete', function deleteClientForm (req, res) {
 // Delete client with :id
 router.delete('/api/clients/:id', function deleteClient (req, res) {
   let clientId = req.params.id;
-  // find todo in db by id and remove
+  console.log('deleting id: ', clientId);
+  // // find todo in db by id and remove
   Client.findOneAndRemove({ _id: clientId }, function (err, deletedClient) {
     res.json(deletedClient);
   });
+  // db.clients.remove({_id: ObjectId(clientId)}, function(err) {
+  //   if (err) { return console.log(err); }
+  //   console.log("removal of id=" + clientId  + " successful.");
+  //   res.status(200).send();
+  // });
 });
 
 module.exports = router;
