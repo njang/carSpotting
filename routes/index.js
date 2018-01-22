@@ -104,20 +104,13 @@ router.get('/api/clients/new', function newClientForm (req, res) {
 router.post('/api/clients', function createClient (req, res) {
   let client = new Clients(req.body);
   console.log(client);
-  client.save();
-
-  // client.save((err, createdClient) => {
-  //   if (err) {
-  //       res.status(500).send(err);
-  //   }
-  //   res.status(200).send(createdClient);
-  // });
-
-	// res.json({
-	// 	message: "Create a new client"
-	// });
+  client.save((err, createdClient) => {
+    if (err) {
+        res.status(500).send(err);
+    }
+    res.status(200).send(createdClient);
+  });
   res.json(client);
-
 });
 
 // Show client with :id
@@ -170,7 +163,7 @@ router.delete('/api/clients/:id', function deleteClient (req, res) {
   let clientId = req.params.id;
   console.log('deleting id: ', clientId);
   debugger;
-  db.Clients.findOneAndRemove(clientId , function (err, deletedClient) {
+  Clients.findOneAndRemove(clientId , function (err, deletedClient) {
     // res.json(deletedClient);
     if (err) {
       res.status(500).send(err);
