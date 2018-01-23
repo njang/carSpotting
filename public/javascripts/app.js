@@ -6,7 +6,18 @@
 // problem with buttons having their click assignment loaded.
 $(document).ready(function() {
 
-  // Retrieve the client database and render them into card format.
+  renderClientCards();
+
+  // Add a button to add new client.
+  $('#add-client').append($('<button>', {class: 'btn btn-danger btn-add-client align-top text-center material-icons md-2', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'library_add'}));
+});
+
+// Retrieve the client database and render them into card format.
+const renderClientCards = () => {
+  // Clear the displayed cards and prepare for new cards to render
+  $('#clients').html('');
+
+  // Call the database and render client cards
   $.ajax({
     method: 'GET',
     url: '/api/clients',
@@ -16,87 +27,75 @@ $(document).ready(function() {
       });
     }
   });
+}
 
-  // Add a button to add new client.
-  $('#add-client').append($('<button>', {class: 'btn btn-danger btn-add-client align-top text-center material-icons md-2', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'library_add'}));
-});
-
-
+// Saving new client into database
+// Partial entry of address uses Google Maps Geocode API to parse to formatted street address and GPS coordinates
 $(document).on('click', '.saveNewClient', (e) => {
   e.preventDefault();
-  
+
+  let newClientInput = e.target.parentElement.parentElement.parentElement;
+
+  // Output the captured information on the New Client Form  
   console.log('Saving new client');
-  console.log('Name: ' + e.target.parentElement.name.value);
-  console.log('Address: ' + e.target.parentElement.address.value);
-  console.log('Phone: ' + formatPhoneNumber(e.target.parentElement.phone.value));
+  console.log('Name: ' + newClientInput.name.value);
+  console.log('Address: ' + newClientInput.address.value);
+  console.log('Phone: ' + formatPhoneNumber(newClientInput.phone.value));
+  console.log('Lawn: ' + newClientInput.turfType.value);
+  console.log('Last mowed: ' + newClientInput.lastMowed.value);
 
-  let endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
-  let input = endpoint + encodeURIComponent(e.target.parentElement.address.value);
-  let geocodeResult = {};
+  // debugger;
 
-  const geocodeSuccess = (responseData) => {
-    let message = '';
-    switch (responseData.status) {
-      case 'OK':
-        message = responseData.results[0].formatted_address + ", " + responseData.results[0].geometry.location.lat + ", " + responseData.results[0].geometry.location.lng;
-        break;
-      case 'ZERO_RESULTS':
-        message = 'No coordinates found';
-        break;
-      default:
-        message = responseData.status;
-    }
-    // console.log(message);
-    geocodeResult = {"streetAddress": responseData.results[0].formatted_address,
-      "coordinates": {
-        "lat": responseData.results[0].geometry.location.lat,
-        "lng": responseData.results[0].geometry.location.lng
-      }
-    };
-    return geocodeResult;
-  };
+  // // Define parameters for ajax call
+  // let endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
+  // let input = endpoint + encodeURIComponent(e.target.parentElement.address.value);
+  // // let geocodeResult = {};
 
-  // $.ajax({
-  //   // Define the kind of request as 'GET'
-  //   method: 'GET',  
-  //   // The URL for the request
-  //   url: input,   
-  //   // Code to run if the request succeeds 
-  //   success: geocodeSuccess
-  //   // success: {
-  //   //   geocodeResult = geocodeSuccess()
-  //   // }
-  // });
+  // const geocodeSuccess = (responseData) => {
+  //   let message = '';
+  //   switch (responseData.status) {
+  //     case 'OK':
+  //       message = responseData.results[0].formatted_address + ", " + responseData.results[0].geometry.location.lat + ", " + responseData.results[0].geometry.location.lng;
+  //       break;
+  //     case 'ZERO_RESULTS':
+  //       message = 'No coordinates found';
+  //       break;
+  //     default:
+  //       message = responseData.status;
+  //   }
+  //   console.log(message);
+  //   // geocodeResult = {"streetAddress": responseData.results[0].formatted_address,
+  //   //   "coordinates": {
+  //   //     "lat": responseData.results[0].geometry.location.lat,
+  //   //     "lng": responseData.results[0].geometry.location.lng
+  //   //   }
+  //   // };
+  //   // return geocodeResult;
+  // };
 
+  // jQuery POST method to enter new client information retrieved
   $.ajax({
     method: 'POST',
     url: '/api/clients',
     data: {
-      name: e.target.parentElement.name.value,
-      // location: {
-      //   streetAddress: e.target.parentElement.address.value
-      // },
-      phone: e.target.parentElement.phone.value
+      name: newClientInput.name.value,
+      location: {
+        streetAddress: newClientInput.address.value
+      },
+      phone: newClientInput.phone.value,
+      lawn: {
+        turfType: newClientInput.turfType.value,
+        // lastMowed: e.target.parentElement.lawn.lastMowed.value
+      }
     },
     success: newClientSuccess,
     error: newClientError
   });
 
-  // location: {
-  //   streetAddress: String,
-  //   coordinates: {
-  //     lat: Number,
-  //     lng: Number
-  //   }
-  // },
-
-  //     address: e.currentTarget["2"].value,
-  //     releaseDate: e.currentTarget["3"].value,
-  //     genres: e.currentTarget["4"].value.split(',')
-
-
   // Empty the form fields
-  e.target.parentElement.reset();
+  newClientInput.reset();
+  // Re-render the cards
+  renderClientCards();
 });
 
 
@@ -128,6 +127,7 @@ $(document).on('click', '.btn-remove-client', function(e) {
 
 // Assemble client cards
 const clientCard = (client) => {
+
   // Initiate a client card
   let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-xs-12 col-md-6 col-lg-4', 'data-client-id': client._id});
 
@@ -176,8 +176,8 @@ const formatPhoneNumber = (phoneNumber) => {
 }
 
 const formatAddress = (address) => {
-  let addressLines = address.split('.');
-  return addressLines[0] + '<br>' + addressLines[1];
+  let addressLines = address.split(',');
+  return addressLines[0] + '<br>' + addressLines[1] + ', ' + addressLines[2];
 }
 
 // Calculates how long ago the time of event was, and returns it in unit of days.
@@ -213,6 +213,10 @@ const editClient = (e) => {
 const removeClient = (e) => {
   e.preventDefault();
   let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
+
+  debugger;
+
+  
   let url = '/api/clients/' + targetId;
   console.log('Request to delete ' + targetId);
   // debugger;
@@ -221,10 +225,11 @@ const removeClient = (e) => {
     url: url,
     success: function() {
       console.log('Removed ' + targetId);
-      $('[data-client-id='+ targetId + ']').remove();
+      // $('[data-client-id='+ targetId + ']').remove();
     },
     error: function() {
       console.log('Remove client error!');
     }
   }); 
+  renderClientCards();
 }

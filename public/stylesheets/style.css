@@ -56,6 +56,10 @@ div.scrollmenu a:hover {
     background-color: #777;
 }
 
+div.row {
+    margin: 0.5em auto;
+}
+
 .clientCard {
     text-align: left;
     border: solid;
