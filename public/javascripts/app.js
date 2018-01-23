@@ -176,7 +176,7 @@ const formatPhoneNumber = (phoneNumber) => {
 }
 
 const formatAddress = (address) => {
-  let addressLines = address.split('.');
+  let addressLines = address.split(',');
   return addressLines[0] + '<br>' + addressLines[1];
 }
 
