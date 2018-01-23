@@ -44,35 +44,6 @@ $(document).on('click', '.saveNewClient', (e) => {
   console.log('Lawn: ' + newClientInput.turfType.value);
   console.log('Last mowed: ' + newClientInput.lastMowed.value);
 
-  // debugger;
-
-  // // Define parameters for ajax call
-  // let endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
-  // let input = endpoint + encodeURIComponent(e.target.parentElement.address.value);
-  // // let geocodeResult = {};
-
-  // const geocodeSuccess = (responseData) => {
-  //   let message = '';
-  //   switch (responseData.status) {
-  //     case 'OK':
-  //       message = responseData.results[0].formatted_address + ", " + responseData.results[0].geometry.location.lat + ", " + responseData.results[0].geometry.location.lng;
-  //       break;
-  //     case 'ZERO_RESULTS':
-  //       message = 'No coordinates found';
-  //       break;
-  //     default:
-  //       message = responseData.status;
-  //   }
-  //   console.log(message);
-  //   // geocodeResult = {"streetAddress": responseData.results[0].formatted_address,
-  //   //   "coordinates": {
-  //   //     "lat": responseData.results[0].geometry.location.lat,
-  //   //     "lng": responseData.results[0].geometry.location.lng
-  //   //   }
-  //   // };
-  //   // return geocodeResult;
-  // };
-
   // jQuery POST method to enter new client information retrieved
   $.ajax({
     method: 'POST',
@@ -98,8 +69,6 @@ $(document).on('click', '.saveNewClient', (e) => {
   renderClientCards();
 });
 
-
-
 function newClientSuccess(json) {
   console.log('new client success!');
 }
@@ -107,7 +76,6 @@ function newClientSuccess(json) {
 function newClientError() {
   console.log('new client error!');
 }
-
 
 // Link editClient function to edit buttons
 $(document).on('click', '.btn-edit-client', function(e) {
@@ -119,11 +87,6 @@ $(document).on('click', '.btn-remove-client', function(e) {
   // console.log('Button clicked: remove client');
   removeClient(e);
 });
-
-
-
-
-
 
 // Assemble client cards
 const clientCard = (client) => {
@@ -170,6 +133,43 @@ const clientCard = (client) => {
   $('#clients').append(cardElement);
 }
 
+const editClient = (e) => {
+  e.preventDefault();
+  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
+  let url = '/api/clients/' + targetId + '/edit';
+  console.log('Request to edit ' + targetId + ' via ' + url);
+  $.ajax({
+    method: 'PATCH',
+    url: url,
+    success: function() {
+      console.log('Edited ' + targetId);
+    },
+    error: function() {
+      console.log('Edit client error!');
+    }
+  });
+}
+
+const removeClient = (e) => {
+  e.preventDefault();
+  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
+  let url = '/api/clients/' + targetId;
+  console.log('Request to delete ' + targetId);
+
+  $.ajax({
+    method: 'DELETE',
+    url: url,
+    success: function() {
+      console.log('Removed ' + targetId);
+      // $('[data-client-id='+ targetId + ']').remove();
+    },
+    error: function() {
+      console.log('Remove client error!');
+    }
+  }); 
+  renderClientCards();
+}
+
 const formatPhoneNumber = (phoneNumber) => {
   let digits = phoneNumber.toString().split('');
   return '(' + digits.slice(0, 3).join('') + ') ' + digits.slice(3, 6).join('') + '-' + digits.slice(-4).join('');
@@ -191,45 +191,4 @@ const howLongSince = (timeOfEvent) => {
     message = 'Yesterday';
   }
   return message;
-}
-
-const editClient = (e) => {
-  e.preventDefault();
-  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
-  let url = '/api/clients/' + targetId + '/edit';
-  console.log('Request to edit ' + targetId + ' via ' + url);
-  $.ajax({
-    method: 'PATCH',
-    url: url,
-    success: function() {
-      console.log('Edited ' + targetId);
-    },
-    error: function() {
-      console.log('Edit client error!');
-    }
-  });
-}
-
-const removeClient = (e) => {
-  e.preventDefault();
-  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
-
-  debugger;
-
-  
-  let url = '/api/clients/' + targetId;
-  console.log('Request to delete ' + targetId);
-  // debugger;
-  $.ajax({
-    method: 'DELETE',
-    url: url,
-    success: function() {
-      console.log('Removed ' + targetId);
-      // $('[data-client-id='+ targetId + ']').remove();
-    },
-    error: function() {
-      console.log('Remove client error!');
-    }
-  }); 
-  renderClientCards();
 }
