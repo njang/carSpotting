@@ -19,8 +19,14 @@ function initMap() {
 		  map: map
 		});
 
+		let content = '<h4>' + props.name + '</h4>';
+		content += '<div>' + formatAddress(props.location.streetAddress) +'</div>';
+		content += '<div>' + formatPhoneNumber(props.phone) + '</div>';
+		content += '<div> Type: ' + props.lawn.turfType + ' Lot: ' + props.lawn.lotSize + ' acres</div>';
+		
 		var infoWindow = new google.maps.InfoWindow({
-			content: '<h3>' + props.name + '</h3><p>' + props.phone + '</p>'
+			// content: '<h4>' + props.name + '</h4><div>' + addressLines[0] + '</div><div>' + addressLines[1] + ', ' + addressLines[2] + '</div><div>' + formatPhoneNumber(props.phone) + '</div>'
+			content: content
 		});
 
 		// Check for custom icon

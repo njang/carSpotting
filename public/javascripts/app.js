@@ -1,15 +1,102 @@
 
-// // IIFE for reference
-// (() => {
-// })();
-
-// problem with buttons having their click assignment loaded.
 $(document).ready(function() {
-
+  // Initial render of clients
   renderClientCards();
 
   // Add a button to add new client.
   $('#add-client').append($('<button>', {class: 'btn btn-danger btn-add-client align-top text-center material-icons md-2', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'library_add'}));
+});
+
+// Saving new client into database
+// Partial entry of address uses Google Maps Geocode API to parse to formatted street address and GPS coordinates
+$(document).on('click', '.saveNewClient', (e) => {
+  e.preventDefault();
+
+  let newClientInput = e.target.parentElement.parentElement.parentElement;
+
+  // Output the captured information on the New Client Form  
+  console.log('Saving new client');
+  console.log('Name: ' + newClientInput.name.value);
+  console.log('Address: ' + newClientInput.address.value);
+  console.log('Phone: ' + formatPhoneNumber(newClientInput.phone.value));
+  console.log('Lawn: ' + newClientInput.turfType.value);
+  console.log('Last mowed: ' + newClientInput.lastMowed.value);
+
+  // Add geocode converter
+  const endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
+  let url = endpoint + encodeURIComponent(newClientInput.address.value);
+  let geocodeResult = {};
+  $.ajax({
+    // Define the kind of request as 'GET'
+    method: 'GET',  
+    // The URL for the request
+    url: url,   
+    // Code to run if the request succeeds 
+    success: (responseData) => {
+      let message = '';
+      switch (responseData.status) {
+        case 'OK':
+          geocodeResult.address = responseData.results[0].formatted_address;
+          geocodeResult.lat = responseData.results[0].geometry.location.lat;
+          geocodeResult.lng = responseData.results[0].geometry.location.lng;
+          console.log(geocodeResult);
+          break;
+        case 'ZERO_RESULTS':
+          message = 'No coordinates found';
+          break;
+        default:
+          message = responseData.status;
+      }
+      console.log(message);
+    }
+  });
+
+  // function onSuccess(responseData) {
+  //   debugger;
+  // };
+
+  // jQuery POST method to enter new client information retrieved
+  $.ajax({
+    method: 'POST',
+    url: '/api/clients',
+    data: {
+      name: newClientInput.name.value,
+      location: {
+        streetAddress: newClientInput.address.value
+      },
+      phone: newClientInput.phone.value,
+      lawn: {
+        turfType: newClientInput.turfType.value,
+        lastMowed: newClientInput.lastMowed.value
+      }
+    },
+    success: newClientSuccess,
+    error: newClientError
+  });
+
+  // Empty the form fields
+  newClientInput.reset();
+  // Re-render the cards
+  renderClientCards();
+});
+
+function newClientSuccess(json) {
+  console.log('new client success!');
+}
+
+function newClientError() {
+  console.log('new client error!');
+}
+
+// Link editClient function to edit buttons
+$(document).on('click', '.btn-edit-client', function(e) {
+  editClient(e);
+});
+
+// Link removeClient function to remove buttons
+$(document).on('click', '.btn-remove-client', function(e) {
+  // console.log('Button clicked: remove client');
+  removeClient(e);
 });
 
 // Retrieve the client database and render them into card format.
@@ -28,102 +115,6 @@ const renderClientCards = () => {
     }
   });
 }
-
-// Saving new client into database
-// Partial entry of address uses Google Maps Geocode API to parse to formatted street address and GPS coordinates
-$(document).on('click', '.saveNewClient', (e) => {
-  e.preventDefault();
-
-  let newClientInput = e.target.parentElement.parentElement.parentElement;
-
-  // Output the captured information on the New Client Form  
-  console.log('Saving new client');
-  console.log('Name: ' + newClientInput.name.value);
-  console.log('Address: ' + newClientInput.address.value);
-  console.log('Phone: ' + formatPhoneNumber(newClientInput.phone.value));
-  console.log('Lawn: ' + newClientInput.turfType.value);
-  console.log('Last mowed: ' + newClientInput.lastMowed.value);
-
-  // debugger;
-
-  // // Define parameters for ajax call
-  // let endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
-  // let input = endpoint + encodeURIComponent(e.target.parentElement.address.value);
-  // // let geocodeResult = {};
-
-  // const geocodeSuccess = (responseData) => {
-  //   let message = '';
-  //   switch (responseData.status) {
-  //     case 'OK':
-  //       message = responseData.results[0].formatted_address + ", " + responseData.results[0].geometry.location.lat + ", " + responseData.results[0].geometry.location.lng;
-  //       break;
-  //     case 'ZERO_RESULTS':
-  //       message = 'No coordinates found';
-  //       break;
-  //     default:
-  //       message = responseData.status;
-  //   }
-  //   console.log(message);
-  //   // geocodeResult = {"streetAddress": responseData.results[0].formatted_address,
-  //   //   "coordinates": {
-  //   //     "lat": responseData.results[0].geometry.location.lat,
-  //   //     "lng": responseData.results[0].geometry.location.lng
-  //   //   }
-  //   // };
-  //   // return geocodeResult;
-  // };
-
-  // jQuery POST method to enter new client information retrieved
-  $.ajax({
-    method: 'POST',
-    url: '/api/clients',
-    data: {
-      name: newClientInput.name.value,
-      location: {
-        streetAddress: newClientInput.address.value
-      },
-      phone: newClientInput.phone.value,
-      lawn: {
-        turfType: newClientInput.turfType.value,
-        // lastMowed: e.target.parentElement.lawn.lastMowed.value
-      }
-    },
-    success: newClientSuccess,
-    error: newClientError
-  });
-
-  // Empty the form fields
-  newClientInput.reset();
-  // Re-render the cards
-  renderClientCards();
-});
-
-
-
-function newClientSuccess(json) {
-  console.log('new client success!');
-}
-
-function newClientError() {
-  console.log('new client error!');
-}
-
-
-// Link editClient function to edit buttons
-$(document).on('click', '.btn-edit-client', function(e) {
-  editClient(e);
-});
-
-// Link removeClient function to remove buttons
-$(document).on('click', '.btn-remove-client', function(e) {
-  // console.log('Button clicked: remove client');
-  removeClient(e);
-});
-
-
-
-
-
 
 // Assemble client cards
 const clientCard = (client) => {
@@ -170,6 +161,43 @@ const clientCard = (client) => {
   $('#clients').append(cardElement);
 }
 
+const editClient = (e) => {
+  e.preventDefault();
+  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
+  let url = '/api/clients/' + targetId + '/edit';
+  console.log('Request to edit ' + targetId + ' via ' + url);
+  $.ajax({
+    method: 'PATCH',
+    url: url,
+    success: function() {
+      console.log('Edited ' + targetId);
+    },
+    error: function() {
+      console.log('Edit client error!');
+    }
+  });
+}
+
+const removeClient = (e) => {
+  e.preventDefault();
+  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
+  let url = '/api/clients/' + targetId;
+  console.log('Request to delete ' + targetId);
+
+  $.ajax({
+    method: 'DELETE',
+    url: url,
+    success: function() {
+      console.log('Removed ' + targetId);
+      // $('[data-client-id='+ targetId + ']').remove();
+    },
+    error: function() {
+      console.log('Remove client error!');
+    }
+  }); 
+  renderClientCards();
+}
+
 const formatPhoneNumber = (phoneNumber) => {
   let digits = phoneNumber.toString().split('');
   return '(' + digits.slice(0, 3).join('') + ') ' + digits.slice(3, 6).join('') + '-' + digits.slice(-4).join('');
@@ -191,45 +219,4 @@ const howLongSince = (timeOfEvent) => {
     message = 'Yesterday';
   }
   return message;
-}
-
-const editClient = (e) => {
-  e.preventDefault();
-  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
-  let url = '/api/clients/' + targetId + '/edit';
-  console.log('Request to edit ' + targetId + ' via ' + url);
-  $.ajax({
-    method: 'PATCH',
-    url: url,
-    success: function() {
-      console.log('Edited ' + targetId);
-    },
-    error: function() {
-      console.log('Edit client error!');
-    }
-  });
-}
-
-const removeClient = (e) => {
-  e.preventDefault();
-  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
-
-  debugger;
-
-  
-  let url = '/api/clients/' + targetId;
-  console.log('Request to delete ' + targetId);
-  // debugger;
-  $.ajax({
-    method: 'DELETE',
-    url: url,
-    success: function() {
-      console.log('Removed ' + targetId);
-      // $('[data-client-id='+ targetId + ']').remove();
-    },
-    error: function() {
-      console.log('Remove client error!');
-    }
-  }); 
-  renderClientCards();
 }

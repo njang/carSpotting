@@ -1,11 +1,18 @@
 <nav class='row bg-dark text-white sticky-top'>
-	<div class='col col-2'>
-		<i class='material-icons md-3'>menu</i>	
-		<div>Menu</div>
+	<div class='col col-2 dropdown'>
+		<button class="btn bg-dark text-white" type="button" data-toggle="dropdown">
+			<i class='material-icons md-3'>menu</i>	
+			<div>Menu</div>
+		</button>
+	  <ul class="dropdown-menu bg-dark text-white">
+	    <li><a href="#">About</a></li>
+	    <li><a href="#map">Map</a></li>
+	    <li><a href="#">Weather</a></li>
+	  </ul>
 	</div>
 	<div class='col col-8'>
-		<img src="images/grassIcon_32x32.png">
-		<h3 class='text-uppercase font-weight-bold'><%= title %></h3>	
+			<img src="images/grassIcon_32x32.png">
+			<h3 class='text-uppercase font-weight-bold'><%= title %></h3>	
 	</div>
 	<div class='col col-2'>
     <% if (user) { %>
@@ -14,7 +21,7 @@
 				<div>Logout</div>
 			</a> 
     <% } else { %>
-	    <a href='/auth/google' class='text-muted'>
+	    <a href='/auth/google' class='text-white'>
 				<i class='material-icons md-3'>account_circle</i>
 				<div>Login</div>
 	    </a>
