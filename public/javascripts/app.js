@@ -177,7 +177,7 @@ const formatPhoneNumber = (phoneNumber) => {
 
 const formatAddress = (address) => {
   let addressLines = address.split(',');
-  return addressLines[0] + '<br>' + addressLines[1];
+  return addressLines[0] + '<br>' + addressLines[1] + ', ' + addressLines[2];
 }
 
 // Calculates how long ago the time of event was, and returns it in unit of days.
