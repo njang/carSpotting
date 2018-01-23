@@ -85,3 +85,15 @@ div.row {
     border-radius: 1.0em;
     padding: 0;
 }
+
+.dropdown-menu {
+    font-size: 24px;
+    padding: 0.5em;
+    border: solid white;
+    border-radius: 0.5em;
+}
+
+.dropdown-menu li {
+    text-decoration: none;
+    margin: 0.5em;
+}
