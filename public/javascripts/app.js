@@ -18,7 +18,7 @@ $(document).ready(function() {
   });
 
   // Add a button to add new client.
-  $('#add-client').append($('<div>', {class: 'btn btn-danger btn-add-client material-icons md-3', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'add'}));
+  $('#add-client').append($('<button>', {class: 'btn btn-danger btn-add-client align-top text-center material-icons md-2', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'library_add'}));
 });
 
 
@@ -68,23 +68,19 @@ $(document).on('click', '.saveNewClient', (e) => {
   //   // }
   // });
 
-  // $.ajax({
-  //   method: 'POST',
-  //   url: '/api/clients',
-  //   data: {
-  //     name: e.target.parentElement.name.value,
-  //     location: {
-  //       streetAddress: e.target.parentElement.address.value,
-  //       coordinates: {
-  //         lat: ,  
-  //         lng:
-  //       }
-  //     },
-  //     phone: e.target.parentElement.phone.value
-  //   },
-  //   success: newClientSuccess,
-  //   error: newClientError
-  // });
+  $.ajax({
+    method: 'POST',
+    url: '/api/clients',
+    data: {
+      name: e.target.parentElement.name.value,
+      // location: {
+      //   streetAddress: e.target.parentElement.address.value
+      // },
+      phone: e.target.parentElement.phone.value
+    },
+    success: newClientSuccess,
+    error: newClientError
+  });
 
   // location: {
   //   streetAddress: String,
@@ -133,7 +129,7 @@ $(document).on('click', '.btn-remove-client', function(e) {
 // Assemble client cards
 const clientCard = (client) => {
   // Initiate a client card
-  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-sm-12 col-md-4 col-lg-3', 'data-client-id': client._id});
+  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-xs-12 col-md-6 col-lg-4', 'data-client-id': client._id});
 
 
   // A row to display the client name on top of the card
@@ -200,8 +196,18 @@ const howLongSince = (timeOfEvent) => {
 const editClient = (e) => {
   e.preventDefault();
   let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
-  let url = '/api/clients/' + targetId;
-  console.log('Request to edit ' + targetId);
+  let url = '/api/clients/' + targetId + '/edit';
+  console.log('Request to edit ' + targetId + ' via ' + url);
+  $.ajax({
+    method: 'PATCH',
+    url: url,
+    success: function() {
+      console.log('Edited ' + targetId);
+    },
+    error: function() {
+      console.log('Edit client error!');
+    }
+  });
 }
 
 const removeClient = (e) => {

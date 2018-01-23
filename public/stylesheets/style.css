@@ -13,7 +13,7 @@ a {
 }
 
 #clients {
-  padding: 3em;
+  padding: 0 3em;
 }
 
 #map {
@@ -70,13 +70,14 @@ div.scrollmenu a:hover {
 #add-client {
     position: fixed;
     bottom: 2.0em;
-    right: 2.0em;
+    right: 3.0em;
     z-index: 1;
     text-align: center;
 }
 .btn-add-client {    
     /*text-align: center;*/
-    width: 1.5em;
-    height: 1.5em;
-    border-radius: 0.75em;
+    width: 2.0em;
+    height: 2.0em;
+    border-radius: 1.0em;
+    padding: 0;
 }
