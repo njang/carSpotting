@@ -119,10 +119,16 @@ clientList.push({
 });
 
 db.Client.remove({}, function(err, clients){
-  db.Client.create(clientList, function(err, clients){
-    if (err) { return console.log('ERROR', err); }
-    console.log("All clients:", clients);
-    console.log("Created", clients.length, "clients");
-    process.exit();
-  });
+  if (err) {
+    console.log('Error occured in remove',err);
+  } else {
+    console.log('Success in remove');
+
+    db.Client.create(clientList, function(err, clients){
+      if (err) { return console.log('ERROR', err); }
+      console.log("All clients:", clients);
+      console.log("Created", clients.length, "clients");
+      process.exit();
+    });
+  }
 });
