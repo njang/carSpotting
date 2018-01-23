@@ -73,7 +73,7 @@ router.get('/api', function api_index (req, res){
     base_url: "",
     endpoints: [
       {method: "GET", path: "/api/clients", description: "Show all clients"},
-      {method: "GET", path: "/api/clients/new", description: "Show new client form"},
+      // {method: "GET", path: "/api/clients/new", description: "Show new client form"},
       {method: "POST", path: "/api/clients", description: "Create a client"},
       {method: "GET", path: "/api/clients/:id", description: "Show client with :id"},
       {method: "GET", path: "/api/clients/:id/edit", description: "Edit client with :id"},
@@ -91,29 +91,26 @@ router.get('/api/clients', function showClients (req, res) {
   });
 });
 
-// Show new client form
-router.get('/api/clients/new', function newClientForm (req, res) {
-	res.json({
-		message: "Show new client form"
-	});
-});
-
-
+// // Show new client form
+// router.get('/api/clients/new', function newClientForm (req, res) {
+// 	res.json({
+// 		message: "Show new client form"
+// 	});
+// });
 
 // Create a new client
 router.post('/api/clients', function createClient (req, res) {
   let client = new Clients(req.body);
-  console.log(client);
   client.save((err, createdClient) => {
     if (err) {
         res.status(500).send(err);
     }
     res.status(200).send(createdClient);
   });
-  res.json(client);
+  // res.json(client);
 });
 
-// Show client with :id
+// Show a client with matching id
 router.get('/api/clients/:id', function findClient (req, res) {
   let clientId = req.params.id;
   // res.json( clientId );
@@ -125,19 +122,21 @@ router.get('/api/clients/:id', function findClient (req, res) {
 // Edit client with :id
 router.get('/api/clients/:id/edit', function editClient (req, res) {
   let clientId = req.params.id;
-  Clients.findOne({ _id: clientId }, function (err, foundClient) {
-    // update the todos's attributes
-    foundClient.name = req.body.name;
-    foundClient.phone = req.body.phone;
-    // foundClient.location = req.body.location;
-		foundClient.lawn.lotSize = req.body.lotSize;
-    foundClient.lawn.turfType = req.body.turfType;
-    foundClient.lawn.lastMowed = req.body.lastMowed;
 
-    // save updated todo in db
-    foundClient.save(function (err, savedClient) {
-      res.json(savedClient);
-    });
+
+  Clients.findOne({ _id: clientId }, function (err, foundClient) {
+    console.log(foundClient);
+  //   // update the todos's attributes
+  //   foundClient.name = req.body.name;
+  //   foundClient.phone = req.body.phone;
+  //   // foundClient.location = req.body.location;
+		// foundClient.lawn.lotSize = req.body.lotSize;
+  //   foundClient.lawn.turfType = req.body.turfType;
+  //   foundClient.lawn.lastMowed = req.body.lastMowed;
+
+  //   foundClient.save(function (err, savedClient) {
+  //     res.json(savedClient);
+  //   });
   });
 	res.json({
 		message: "Edit client with :id"
@@ -145,37 +144,47 @@ router.get('/api/clients/:id/edit', function editClient (req, res) {
 });
 
 // Update client with :id
-router.patch('/api/clients/:id', function updateClient (req, res) {
-	res.json({
-		message: "Update client with :id"
-	});
-});
+// router.patch('/api/clients/:id', function updateClient (req, res) {
+// 	res.json({
+// 		message: "Update client with :id"
+// 	});
+// });
+router.put('/api/clients/:id', (request, response) => {
+  Clients.findByIdAndUpdate(
+    request.params.id,
+    {
+      name: request.body.name,
+      phone: request.body.phone
+    },
+    {new: true},
+    function(err, model) {
+      console.log(model);
+      if (err) {
+        response.status(500).send(err);
+      }
+      response.status(200).send(model);
+    }
+  );
+})
 
-// Show delete form for client with :id
-router.get('/api/clients/:id/delete', function deleteClientForm (req, res) {
-	res.json({
-		message: "Show delete form for a client with :id"
-	});
-});
+
+// // Show delete form for client with :id
+// router.get('/api/clients/:id/delete', function deleteClientForm (req, res) {
+// 	res.json({
+// 		message: "Show delete form for a client with :id"
+// 	});
+// });
 
 // Delete client with :id
 router.delete('/api/clients/:id', function deleteClient (req, res) {
   let clientId = req.params.id;
   console.log('deleting id: ', clientId);
-  debugger;
   Clients.findOneAndRemove(clientId , function (err, deletedClient) {
-    // res.json(deletedClient);
     if (err) {
       res.status(500).send(err);
     }
     res.status(200).send(deletedClient);
-
   });
-  // db.clients.remove({_id: ObjectId(clientId)}, function(err) {
-  //   if (err) { return console.log(err); }
-  //   console.log("removal of id=" + clientId  + " successful.");
-  //   res.status(200).send();
-  // });
 });
 
 module.exports = router;
