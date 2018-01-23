@@ -70,7 +70,7 @@ div.scrollmenu a:hover {
 #add-client {
     position: fixed;
     bottom: 2.0em;
-    right: 1.0em;
+    right: 3.0em;
     z-index: 1;
     text-align: center;
 }
