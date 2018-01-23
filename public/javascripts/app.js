@@ -22,6 +22,39 @@ $(document).on('click', '.saveNewClient', (e) => {
   console.log('Lawn: ' + newClientInput.turfType.value);
   console.log('Last mowed: ' + newClientInput.lastMowed.value);
 
+  // Add geocode converter
+  const endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
+  let url = endpoint + encodeURIComponent(newClientInput.address.value);
+  let geocodeResult = {};
+  $.ajax({
+    // Define the kind of request as 'GET'
+    method: 'GET',  
+    // The URL for the request
+    url: url,   
+    // Code to run if the request succeeds 
+    success: (responseData) => {
+      let message = '';
+      switch (responseData.status) {
+        case 'OK':
+          geocodeResult.address = responseData.results[0].formatted_address;
+          geocodeResult.lat = responseData.results[0].geometry.location.lat;
+          geocodeResult.lng = responseData.results[0].geometry.location.lng;
+          console.log(geocodeResult);
+          break;
+        case 'ZERO_RESULTS':
+          message = 'No coordinates found';
+          break;
+        default:
+          message = responseData.status;
+      }
+      console.log(message);
+    }
+  });
+
+  // function onSuccess(responseData) {
+  //   debugger;
+  // };
+
   // jQuery POST method to enter new client information retrieved
   $.ajax({
     method: 'POST',
@@ -34,7 +67,7 @@ $(document).on('click', '.saveNewClient', (e) => {
       phone: newClientInput.phone.value,
       lawn: {
         turfType: newClientInput.turfType.value,
-        // lastMowed: e.target.parentElement.lawn.lastMowed.value
+        lastMowed: newClientInput.lastMowed.value
       }
     },
     success: newClientSuccess,
