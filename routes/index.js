@@ -178,8 +178,8 @@ router.put('/api/clients/:id', (request, response) => {
 // Delete client with :id
 router.delete('/api/clients/:id', function deleteClient (req, res) {
   let clientId = req.params.id;
-  console.log('deleting id: ', clientId);
-  Clients.findOneAndRemove(clientId , function (err, deletedClient) {
+  // console.log('deleting id: ', clientId);
+  Clients.findOneAndRemove({_id: clientId} , function (err, deletedClient) {
     if (err) {
       res.status(500).send(err);
     }
