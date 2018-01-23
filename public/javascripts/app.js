@@ -1,33 +1,11 @@
 
-// // IIFE for reference
-// (() => {
-// })();
-
-// problem with buttons having their click assignment loaded.
 $(document).ready(function() {
-
+  // Initial render of clients
   renderClientCards();
 
   // Add a button to add new client.
   $('#add-client').append($('<button>', {class: 'btn btn-danger btn-add-client align-top text-center material-icons md-2', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'library_add'}));
 });
-
-// Retrieve the client database and render them into card format.
-const renderClientCards = () => {
-  // Clear the displayed cards and prepare for new cards to render
-  $('#clients').html('');
-
-  // Call the database and render client cards
-  $.ajax({
-    method: 'GET',
-    url: '/api/clients',
-    success: (clients) => {
-      clients.forEach((client) => {
-        clientCard(client);
-      });
-    }
-  });
-}
 
 // Saving new client into database
 // Partial entry of address uses Google Maps Geocode API to parse to formatted street address and GPS coordinates
@@ -87,6 +65,23 @@ $(document).on('click', '.btn-remove-client', function(e) {
   // console.log('Button clicked: remove client');
   removeClient(e);
 });
+
+// Retrieve the client database and render them into card format.
+const renderClientCards = () => {
+  // Clear the displayed cards and prepare for new cards to render
+  $('#clients').html('');
+
+  // Call the database and render client cards
+  $.ajax({
+    method: 'GET',
+    url: '/api/clients',
+    success: (clients) => {
+      clients.forEach((client) => {
+        clientCard(client);
+      });
+    }
+  });
+}
 
 // Assemble client cards
 const clientCard = (client) => {
