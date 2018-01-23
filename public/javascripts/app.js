@@ -196,8 +196,18 @@ const howLongSince = (timeOfEvent) => {
 const editClient = (e) => {
   e.preventDefault();
   let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
-  let url = '/api/clients/' + targetId;
-  console.log('Request to edit ' + targetId);
+  let url = '/api/clients/' + targetId + '/edit';
+  console.log('Request to edit ' + targetId + ' via ' + url);
+  $.ajax({
+    method: 'PATCH',
+    url: url,
+    success: function() {
+      console.log('Edited ' + targetId);
+    },
+    error: function() {
+      console.log('Edit client error!');
+    }
+  });
 }
 
 const removeClient = (e) => {
