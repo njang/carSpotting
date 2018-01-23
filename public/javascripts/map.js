@@ -1,16 +1,4 @@
 
-// let locations = [
-// 	{coordinates: {lat: 30.578229, lng: -96.312584}},
-// 	{coordinates: {lat: 30.583794, lng: -96.308351}},
-// 	{coordinates: {lat: 30.583454, lng: -96.302962}},
-// 	{coordinates: {lat: 30.580536, lng: -96.299782}},
-// 	{coordinates: {lat: 30.575361, lng: -96.308799}},
-// 	{coordinates: {lat: 30.633446, lng: -96.336801}},
-// 	{coordinates: {lat: 30.634157, lng: -96.334427}},
-// 	{coordinates: {lat: 30.638992, lng: -96.332344}},
-// 	{coordinates: {lat: 30.640813, lng: -96.332750}}
-// ]
-
 function initMap() {
 	// College Station GPS coordinate
 
@@ -24,16 +12,6 @@ function initMap() {
 	  zoom: 12,
 	  center: bcs.coords
 	});
-
-	// Marker for the center of the initial map view
-	// var marker = new google.maps.Marker({
-	//   position: bcs,
-	//   map: map,
-	//   icon: 'images/grassIcon_32x32.png'
-	// });
-
-
-
 
 	const addMarker = (props) => {
 		let marker = new google.maps.Marker({
@@ -55,11 +33,6 @@ function initMap() {
 			});
 		}
 	}
-	// addMarker(bcs);
-	// for (let i = 0; i < locations.length; i++) {
-	// 	addMarker(locations[i]);
-	// }
-
 
 	$(document).ready(() => {
 	  $.get('/api/clients', (clients) =>  {
@@ -70,6 +43,5 @@ function initMap() {
 	    });
 	  });
 	});
-
 }
 
