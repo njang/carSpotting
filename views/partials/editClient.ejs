@@ -1,0 +1,55 @@
+<div id="modalEditClient" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Edit client form</h4>
+      </div>
+      <div class="modal-body text-left">
+        <form>
+        	<div class="row">
+            <div class="col col-3 offset-2">Name</div>
+            <div class="col col-7">
+          		<input type="text" name="name">
+            </div>
+        	</div>
+        	<div class="row">
+            <div class="col col-3 offset-2">Address</div>
+            <div class="col col-7">
+	        	  <input type="text" name="address">
+            </div>
+        	</div>
+        	<div class="row">
+            <div class="col col-3 offset-2">Phone</div>
+            <div class="col col-7">
+  	      	  <input type="text" name="phone">
+            </div>
+        	</div>
+          <div class="row">
+            <div class="col col-3 offset-2">Turf type</div>
+            <div class="col col-7">
+              <select name="turfType">
+                <option value="" default></option>
+                <option value="St. Augustine">St.Augustine</option>
+                <option value="Bermuda">Bermuda</option>
+                <option value="Zoysia">Zoysia</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-3 offset-2">Last mowed</div>
+            <div class="col col-7">
+              <input type="date" name="lastMowed">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-12 text-center">
+              <button type="submit" class="btn btn-success updateClient" data-dismiss="modal">Save</button>
+              <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
