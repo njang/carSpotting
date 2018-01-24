@@ -120,7 +120,7 @@ const renderClientCards = () => {
 const clientCard = (client) => {
 
   // Initiate a client card
-  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-xs-12 col-md-6 col-lg-4', 'data-client-id': client._id});
+  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-xs-12 col-md-6 col-lg-4 col-xl-3', 'data-client-id': client._id});
 
 
   // A row to display the client name on top of the card
