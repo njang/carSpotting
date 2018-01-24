@@ -152,7 +152,7 @@ const clientCard = (client) => {
 
   divElement = $('<div>' , {class: 'card-row row'});
   // divElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'Remove', onclick: 'deleteClient()'}));
-  divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-edit-client btn-basic', text: 'Edit'}));
+  divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-edit-client btn-basic', 'data-toggle': 'modal', 'data-target': '#modalEditClient', text: 'Edit'}));
   divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-remove-client btn-danger', text: 'Remove'}));
   infoElement.append(divElement);   
   
