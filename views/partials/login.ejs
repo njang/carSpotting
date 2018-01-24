@@ -1,12 +1,48 @@
-	<h1>GOOGLE LOGIN USING PASSPORT</h1>
+<!-- 	<h1>GOOGLE LOGIN USING PASSPORT</h1>
     <div>
       <% if (user) { %>
         <h2> Below is the data sent by Google</h2>
         <pre>
           <%= user.google.id %>
         </pre>
-        <a href="/logout">Logout</a>
+        <a href='/logout'>Logout</a>
       <% } else { %>
-        <a href="/auth/google">Login with Google</a>
+        <a href='/auth/google'>Login with Google</a>
       <% } %>
+    </div> -->
+
+
+<div id='modalLogin' class='modal fade' role='dialog'>
+  <div class='modal-dialog modal-md'>
+    <!-- Modal content-->
+    <div class='modal-content'>
+      <div class='modal-body'>
+        <div class='row'>
+          <div class='col col-10 offset-1'>
+            <a href='/auth/google' class='text-white'>
+              <input type='button' class='btn btn-social btn-login-google' value='Continue with Google'>
+            </a>
+          </div>
+          <div class='col col-10 offset-1'>
+            <input type='button' class='btn btn-social btn-login-facebook' value='Continue with Facebook'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col col-4 offset-1'><hr></div>
+          <div class='col col-2'>or</div>
+          <div class='col col-4'><hr></div>
+        </div>
+        <div class='row'>
+          <div class='col col-10 offset-1'>
+            <input type='text' name='accountId' class='form-control text-muted' placeholder='Your email address or profile URL'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col col-10 offset-1'>
+            <button class='btn btn-social btn-login-email'>Continue</button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
