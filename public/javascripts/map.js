@@ -21,8 +21,8 @@ function initMap() {
 
 		let content = '<h4>' + props.name + '</h4>';
 		content += '<div>' + formatAddress(props.location.streetAddress) +'</div>';
-		content += '<div>' + formatPhoneNumber(props.phone) + '</div>';
-		content += '<div> Type: ' + props.lawn.turfType + ' Lot: ' + props.lawn.lotSize + ' acres</div>';
+		content += '<div><a href="tel:' + props.phone + '">' + formatPhoneNumber(props.phone) + '</a></div>';
+		content += '<div> <b>Lot</b>: ' + props.lawn.lotSize + '  acres | <b>Type</b>: ' + props.lawn.turfType + '</div>';
 		
 		var infoWindow = new google.maps.InfoWindow({
 			// content: '<h4>' + props.name + '</h4><div>' + addressLines[0] + '</div><div>' + addressLines[1] + ', ' + addressLines[2] + '</div><div>' + formatPhoneNumber(props.phone) + '</div>'
