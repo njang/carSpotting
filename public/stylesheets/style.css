@@ -102,12 +102,14 @@ div.row {
 }
 
 .btn-login-google {
-    background-color: #557ff2;
+    background-color: #DC4E41;
 }
 .btn-login-facebook {
-    background-color: #3f509a;
+    background-color: #3B5998;
 }
-
+.btn-login-twitter {
+    background-color: #1DA1F2;
+}
 .btn-login-email {
     background-color: #f65620;
 }
