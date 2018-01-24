@@ -7,6 +7,20 @@ $(document).ready(function() {
   $('#add-client').append($('<button>', {class: 'btn btn-danger btn-add-client align-top text-center material-icons md-2', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'library_add'}));
 });
 
+// Edit client info
+$(document).on('click', '.btn-edit-client', (e) => {
+  e.preventDefault();
+  let targetClientId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
+
+  // Populate the input fields with current values
+  $('#editModalName').val(e.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[1].textContent);
+  $('#editModalAddress').val(e.target.parentElement.parentElement.childNodes[0].childNodes[1].textContent);
+  $('#editModalPhone').val(e.target.parentElement.parentElement.childNodes[1].childNodes[1].textContent.replace('/\s/g',''));
+  // $('.editModalTurfType').val();
+  // $('.editModalLastMowed').val();
+  // debugger;
+});
+
 // Saving new client into database
 // Partial entry of address uses Google Maps Geocode API to parse to formatted street address and GPS coordinates
 $(document).on('click', '.saveNewClient', (e) => {

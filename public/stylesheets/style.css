@@ -94,3 +94,20 @@ div.row {
     text-decoration: none;
     margin: 0.5em;
 }
+
+.btn-social, .input-social-email {
+    width: 100%;
+    margin: 0.5em 0;
+    color: white;
+}
+
+.btn-login-google {
+    background-color: #557ff2;
+}
+.btn-login-facebook {
+    background-color: #3f509a;
+}
+
+.btn-login-email {
+    background-color: #f65620;
+}
