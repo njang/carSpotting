@@ -14,8 +14,21 @@ $(document).on('click', '.btn-edit-client', (e) => {
 
   // Populate the input fields with current values
   $('#editModalName').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
-  $('#editModalAddress').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
-  $('#editModalPhone').val(e.target.closest('.clientCard').childNodes[1].childNodes[1].textContent.replace('/\s/g',''));
+  $('#editModalAddress').val(e.target.closest('.clientCard').childNodes[1].childNodes[0].childNodes[1].textContent);
+  $('#editModalPhone').val(e.target.closest('.clientCard').childNodes[1].childNodes[1].childNodes[1].textContent.replace('/\s/g',''));
+});
+
+// 
+$(document).on('click', '.btn-remove-client', (e) => {
+  e.preventDefault();
+  let targetClientId = e.target.closest('.clientCard').dataset.clientId;
+  // Populate the input fields with current values
+  $('.removeClientConfirm').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
+
+  $(document).on('click', '.btn-remove-client-confirm', (e) => {
+    e.preventDefault();
+    removeClient(targetClientId);
+  });
 });
 
 // Saving new client into database
@@ -62,11 +75,6 @@ $(document).on('click', '.saveNewClient', (e) => {
     }
   });
 
-  // function onSuccess(responseData) {
-  //   debugger;
-  // };
-
-  // jQuery POST method to enter new client information retrieved
   $.ajax({
     method: 'POST',
     url: '/api/clients',
@@ -101,14 +109,13 @@ function newClientError() {
 
 // Link editClient function to edit buttons
 $(document).on('click', '.btn-edit-client', function(e) {
-  editClient(e);
+  // editClient(e);
 });
 
 // Link removeClient function to remove buttons
-$(document).on('click', '.btn-remove-client', function(e) {
-  // console.log('Button clicked: remove client');
-  removeClient(e);
-});
+// $(document).on('click', '.btn-remove-client', function(e) {
+//   // console.log('Button clicked: remove client');
+// });
 
 // Retrieve the client database and render them into card format.
 const renderClientCards = () => {
@@ -163,7 +170,7 @@ const clientCard = (client) => {
   divElement = $('<div>', {class: 'card-row row'});
   // divElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'Remove', onclick: 'deleteClient()'}));
   divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-edit-client btn-basic', 'data-toggle': 'modal', 'data-target': '#modalEditClient', text: 'Edit'}));
-  divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-danger', 'data-toggle': 'modal', 'data-target': '#modalRemoveClient', text: 'Remove'}));
+  divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-remove-client btn-danger', 'data-toggle': 'modal', 'data-target': '#modalRemoveClient', text: 'Remove'}));
   infoElement.append(divElement);   
   
   // Define confirmation modal for deleting client
@@ -177,16 +184,9 @@ const clientCard = (client) => {
       )
     )
   )
-  // divElement.append($('<div>', {class: 'modal-content'}));
-  // divElement;
-  infoElement.append(divElement);   
-        
-      // <div class="modal-footer">
-      //   <button class='btn btn-danger btn-remove-client'>Remove</button>
-      //   <button class='btn btn-basic' data-dismiss="modal">Cancel</button>
-      // </div>
-
+  // infoElement.append(divElement);   
   cardElement.append(infoElement);     
+
   // return cardElement;
   $('#clients').append(cardElement);
 }
@@ -208,18 +208,13 @@ const editClient = (e) => {
   });
 }
 
-const removeClient = (e) => {
-  e.preventDefault();
-  let targetId = e.target.closest('.clientCard').dataset.clientId;
-
-  let url = '/api/clients/' + targetId;
-  console.log('Request to delete ' + targetId);
+const removeClient = (id) => {
+  let url = '/api/clients/' + id;
   $.ajax({
     method: 'DELETE',
     url: url,
     success: function() {
-      console.log('Removed ' + targetId);
-      // $('[data-client-id='+ targetId + ']').remove();
+      console.log('Removed ' + id);
     },
     error: function() {
       console.log('Remove client error!');
@@ -240,7 +235,6 @@ const formatAddress = (address) => {
 
 // Calculates how long ago the time of event was, and returns it in unit of days.
 const howLongSince = (timeOfEvent) => {
-    // debugger;
   let dt = Math.floor((new Date() - timeOfEvent * 1000) / 1000 / 60 / 60 / 24);
   let message = "";
   if (dt > 1) {

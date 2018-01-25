@@ -2,11 +2,14 @@
   <div class="modal-dialog modal-md">
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-body text-left">
+      <div class="modal-header text-left">
         Are you sure to remove this client?
       </div>
+      <div class="modal-body">
+        <input type="text" name="name" class="removeClientConfirm" disabled>
+      </div>
       <div class="modal-footer">
-        <button class='btn btn-danger btn-remove-client'>Remove</button>
+        <button class='btn btn-danger btn-remove-client-confirm' data-dismiss="modal">Remove</button>
         <button class='btn btn-basic' data-dismiss="modal">Cancel</button>
       </div>
     </div>
