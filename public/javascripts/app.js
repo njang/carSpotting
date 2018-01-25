@@ -119,18 +119,21 @@ $(document).on('click', '.btn-edit-client', function(e) {
 
 // Retrieve the client database and render them into card format.
 const renderClientCards = () => {
-  // Clear the displayed cards and prepare for new cards to render
-  $('#clients').html('');
 
   // Call the database and render client cards
   $.ajax({
     method: 'GET',
     url: '/api/clients',
     success: (clients) => {
+      // Clear the displayed cards and prepare for new cards to render
+      $('#clients').html('');
+      // Display the count of clients in the database
       $('#clients').append($('<div>', {class: 'col col-12 text-right', text: clients.length + ' clients found'}));      
       clients.forEach((client) => {
         clientCard(client);
       });
+      // Update the map
+      initMap();
     }
   });
 }
