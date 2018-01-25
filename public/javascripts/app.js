@@ -24,9 +24,14 @@ $(document).on('click', '.btn-remove-client', (e) => {
   let targetClientId = e.target.closest('.clientCard').dataset.clientId;
 
   // Populate the input fields with current values
-  $('#removeClientConfirm').html(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
-  debugger;
+  $('.removeClientConfirm').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
+
+  $(document).on('click', '.btn-remove-client-confirm', (targetClientId) => {
+    e.preventDefault();
+    removeClient(targetClientId);
+  });
 });
+
 
 // Saving new client into database
 // Partial entry of address uses Google Maps Geocode API to parse to formatted street address and GPS coordinates
@@ -72,11 +77,6 @@ $(document).on('click', '.saveNewClient', (e) => {
     }
   });
 
-  // function onSuccess(responseData) {
-  //   debugger;
-  // };
-
-  // jQuery POST method to enter new client information retrieved
   $.ajax({
     method: 'POST',
     url: '/api/clients',
@@ -117,7 +117,6 @@ $(document).on('click', '.btn-edit-client', function(e) {
 // Link removeClient function to remove buttons
 // $(document).on('click', '.btn-remove-client', function(e) {
 //   // console.log('Button clicked: remove client');
-//   removeClient(e);
 // });
 
 // Retrieve the client database and render them into card format.
@@ -211,14 +210,12 @@ const editClient = (e) => {
   });
 }
 
-const removeClient = (e) => {
-  e.preventDefault();
-  let targetId = e.target.closest('.clientCard').dataset.clientId;
-
-  debugger;
-
-  let url = '/api/clients/' + targetId;
-  console.log('Request to delete ' + targetId);
+const removeClient = (id) => {
+  // e.preventDefault();
+  // let targetId = e.target.closest('.clientCard').dataset.clientId;
+  // let url = '/api/clients/' + targetId;
+  let url = '/api/clients/' + id;
+  console.log('Request to delete ' + id);
   // $.ajax({
   //   method: 'DELETE',
   //   url: url,
@@ -245,7 +242,6 @@ const formatAddress = (address) => {
 
 // Calculates how long ago the time of event was, and returns it in unit of days.
 const howLongSince = (timeOfEvent) => {
-    // debugger;
   let dt = Math.floor((new Date() - timeOfEvent * 1000) / 1000 / 60 / 60 / 24);
   let message = "";
   if (dt > 1) {
