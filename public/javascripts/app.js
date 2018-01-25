@@ -18,6 +18,16 @@ $(document).on('click', '.btn-edit-client', (e) => {
   $('#editModalPhone').val(e.target.closest('.clientCard').childNodes[1].childNodes[1].childNodes[1].textContent.replace('/\s/g',''));
 });
 
+// 
+$(document).on('click', '.btn-remove-client', (e) => {
+  e.preventDefault();
+  let targetClientId = e.target.closest('.clientCard').dataset.clientId;
+
+  // Populate the input fields with current values
+  $('#removeClientConfirm').html(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
+  debugger;
+});
+
 // Saving new client into database
 // Partial entry of address uses Google Maps Geocode API to parse to formatted street address and GPS coordinates
 $(document).on('click', '.saveNewClient', (e) => {
@@ -105,10 +115,10 @@ $(document).on('click', '.btn-edit-client', function(e) {
 });
 
 // Link removeClient function to remove buttons
-$(document).on('click', '.btn-remove-client', function(e) {
-  // console.log('Button clicked: remove client');
-  removeClient(e);
-});
+// $(document).on('click', '.btn-remove-client', function(e) {
+//   // console.log('Button clicked: remove client');
+//   removeClient(e);
+// });
 
 // Retrieve the client database and render them into card format.
 const renderClientCards = () => {
@@ -163,7 +173,7 @@ const clientCard = (client) => {
   divElement = $('<div>', {class: 'card-row row'});
   // divElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'Remove', onclick: 'deleteClient()'}));
   divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-edit-client btn-basic', 'data-toggle': 'modal', 'data-target': '#modalEditClient', text: 'Edit'}));
-  divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-danger', 'data-toggle': 'modal', 'data-target': '#modalRemoveClient', text: 'Remove'}));
+  divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-remove-client btn-danger', 'data-toggle': 'modal', 'data-target': '#modalRemoveClient', text: 'Remove'}));
   infoElement.append(divElement);   
   
   // Define confirmation modal for deleting client
@@ -177,16 +187,9 @@ const clientCard = (client) => {
       )
     )
   )
-  // divElement.append($('<div>', {class: 'modal-content'}));
-  // divElement;
-  infoElement.append(divElement);   
-        
-      // <div class="modal-footer">
-      //   <button class='btn btn-danger btn-remove-client'>Remove</button>
-      //   <button class='btn btn-basic' data-dismiss="modal">Cancel</button>
-      // </div>
-
+  // infoElement.append(divElement);   
   cardElement.append(infoElement);     
+
   // return cardElement;
   $('#clients').append(cardElement);
 }
@@ -212,19 +215,21 @@ const removeClient = (e) => {
   e.preventDefault();
   let targetId = e.target.closest('.clientCard').dataset.clientId;
 
+  debugger;
+
   let url = '/api/clients/' + targetId;
   console.log('Request to delete ' + targetId);
-  $.ajax({
-    method: 'DELETE',
-    url: url,
-    success: function() {
-      console.log('Removed ' + targetId);
-      // $('[data-client-id='+ targetId + ']').remove();
-    },
-    error: function() {
-      console.log('Remove client error!');
-    }
-  }); 
+  // $.ajax({
+  //   method: 'DELETE',
+  //   url: url,
+  //   success: function() {
+  //     console.log('Removed ' + targetId);
+  //     // $('[data-client-id='+ targetId + ']').remove();
+  //   },
+  //   error: function() {
+  //     console.log('Remove client error!');
+  //   }
+  // }); 
   renderClientCards();
 }
 
