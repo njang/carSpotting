@@ -10,15 +10,12 @@ $(document).ready(function() {
 // Edit client info
 $(document).on('click', '.btn-edit-client', (e) => {
   e.preventDefault();
-  let targetClientId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
+  let targetClientId = e.target.closest('.clientCard').dataset.clientId;
 
   // Populate the input fields with current values
-  $('#editModalName').val(e.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[1].textContent);
-  $('#editModalAddress').val(e.target.parentElement.parentElement.childNodes[0].childNodes[1].textContent);
-  $('#editModalPhone').val(e.target.parentElement.parentElement.childNodes[1].childNodes[1].textContent.replace('/\s/g',''));
-  // $('.editModalTurfType').val();
-  // $('.editModalLastMowed').val();
-  // debugger;
+  $('#editModalName').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
+  $('#editModalAddress').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
+  $('#editModalPhone').val(e.target.closest('.clientCard').childNodes[1].childNodes[1].textContent.replace('/\s/g',''));
 });
 
 // Saving new client into database
@@ -136,9 +133,8 @@ const clientCard = (client) => {
   // Initiate a client card
   let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-xs-12 col-md-6 col-lg-4 col-xl-3', 'data-client-id': client._id});
 
-
   // A row to display the client name on top of the card
-  let divElement = $('<div>' , {class: 'card-row-user row', 'data-toggle': 'collapse', href: '#panel-' + client._id});
+  let divElement = $('<div>', {class: 'card-row-user row', 'data-toggle': 'collapse', href: '#panel-' + client._id});
   divElement.append($('<i>', {class: 'col col-2 material-icons text-success text-right', text: 'person'}));
   divElement.append($('<h4>', {class: 'col col-10', text: client.name}));
   cardElement.append(divElement);
@@ -153,23 +149,43 @@ const clientCard = (client) => {
   infoElement.append(divElement);
 
   // A row to display the client's phone number. 
-  divElement = $('<div>' , {class: 'card-row-phone row'});
+  divElement = $('<div>', {class: 'card-row-phone row'});
   divElement.append($('<i>', {class: 'col col-2 material-icons text-right', text: 'phone'}));
   divElement.append($('<a>', {class: 'col col-10', href: 'tel:' + client.phone, text: formatPhoneNumber(client.phone)}));
   infoElement.append(divElement);
 
   // A row to display pertinent lawn information
-  divElement = $('<div>' , {class: 'card-row-lawn row'});
+  divElement = $('<div>', {class: 'card-row-lawn row'});
   divElement.append($('<i>', {class: 'col col-2 material-icons text-right', text: 'schedule'}));
   divElement.append($('<p>', {class: 'col col-10', text: 'Last mowed: ' + howLongSince(client.lawn.lastMowed)}));
   infoElement.append(divElement);   
 
-  divElement = $('<div>' , {class: 'card-row row'});
+  divElement = $('<div>', {class: 'card-row row'});
   // divElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'Remove', onclick: 'deleteClient()'}));
   divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-edit-client btn-basic', 'data-toggle': 'modal', 'data-target': '#modalEditClient', text: 'Edit'}));
   divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-danger', 'data-toggle': 'modal', 'data-target': '#modalRemoveClient', text: 'Remove'}));
   infoElement.append(divElement);   
   
+  // Define confirmation modal for deleting client
+  divElement = $('<div>', {id: 'modalRemoveClient', class: 'modal fade', role: 'dialog'});
+  divElement.append($('<div>', {class: 'modal-dialog modal-md'})
+      .append($('<div>', {class: 'modal-content'})
+        .append($('<div>', {class: 'modal-body text-left', text: 'Are you sure to remove this client?'}))
+        .append($('<div>', {class: 'modal-footer'})
+          .append($('<button>', {class: 'btn btn-danger btn-remove-client', text: 'Remove'}))
+          .append($('<button>', {class: 'btn btn-basic', 'data-dismiss': 'modal', text: 'Cancel'}))
+      )
+    )
+  )
+  // divElement.append($('<div>', {class: 'modal-content'}));
+  // divElement;
+  infoElement.append(divElement);   
+        
+      // <div class="modal-footer">
+      //   <button class='btn btn-danger btn-remove-client'>Remove</button>
+      //   <button class='btn btn-basic' data-dismiss="modal">Cancel</button>
+      // </div>
+
   cardElement.append(infoElement);     
   // return cardElement;
   $('#clients').append(cardElement);
@@ -177,7 +193,7 @@ const clientCard = (client) => {
 
 const editClient = (e) => {
   e.preventDefault();
-  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
+  let targetId = e.target.closest('.clientCard').dataset.clientId;
   let url = '/api/clients/' + targetId + '/edit';
   console.log('Request to edit ' + targetId + ' via ' + url);
   $.ajax({
@@ -194,10 +210,10 @@ const editClient = (e) => {
 
 const removeClient = (e) => {
   e.preventDefault();
-  let targetId = e.target.parentElement.parentElement.parentElement.dataset.clientId;
+  let targetId = e.target.closest('.clientCard').dataset.clientId;
+
   let url = '/api/clients/' + targetId;
   console.log('Request to delete ' + targetId);
-
   $.ajax({
     method: 'DELETE',
     url: url,
