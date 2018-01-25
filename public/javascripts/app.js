@@ -170,8 +170,8 @@ const clientCard = (client) => {
 
   divElement = $('<div>', {class: 'card-row row'});
   // divElement.append($('<input>', {type: 'button', class: 'btn btn-remove-client btn-danger', value: 'Remove', onclick: 'deleteClient()'}));
-  divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-edit-client btn-basic', 'data-toggle': 'modal', 'data-target': '#modalEditClient', text: 'Edit'}));
-  divElement.append($('<button>', {class: 'col col-3 offset-2 btn btn-remove-client btn-danger', 'data-toggle': 'modal', 'data-target': '#modalRemoveClient', text: 'Remove'}));
+  divElement.append($('<button>', {class: 'col col-sm-4 offset-1 btn btn-edit-client btn-basic', 'data-toggle': 'modal', 'data-target': '#modalEditClient', text: 'Edit'}));
+  divElement.append($('<button>', {class: 'col col-sm-4 offset-2 btn btn-remove-client btn-danger', 'data-toggle': 'modal', 'data-target': '#modalRemoveClient', text: 'Remove'}));
   infoElement.append(divElement);   
   
   // Define confirmation modal for deleting client
