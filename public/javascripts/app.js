@@ -22,16 +22,14 @@ $(document).on('click', '.btn-edit-client', (e) => {
 $(document).on('click', '.btn-remove-client', (e) => {
   e.preventDefault();
   let targetClientId = e.target.closest('.clientCard').dataset.clientId;
-
   // Populate the input fields with current values
   $('.removeClientConfirm').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
 
-  $(document).on('click', '.btn-remove-client-confirm', (targetClientId) => {
+  $(document).on('click', '.btn-remove-client-confirm', (e) => {
     e.preventDefault();
     removeClient(targetClientId);
   });
 });
-
 
 // Saving new client into database
 // Partial entry of address uses Google Maps Geocode API to parse to formatted street address and GPS coordinates
@@ -211,22 +209,17 @@ const editClient = (e) => {
 }
 
 const removeClient = (id) => {
-  // e.preventDefault();
-  // let targetId = e.target.closest('.clientCard').dataset.clientId;
-  // let url = '/api/clients/' + targetId;
   let url = '/api/clients/' + id;
-  console.log('Request to delete ' + id);
-  // $.ajax({
-  //   method: 'DELETE',
-  //   url: url,
-  //   success: function() {
-  //     console.log('Removed ' + targetId);
-  //     // $('[data-client-id='+ targetId + ']').remove();
-  //   },
-  //   error: function() {
-  //     console.log('Remove client error!');
-  //   }
-  // }); 
+  $.ajax({
+    method: 'DELETE',
+    url: url,
+    success: function() {
+      console.log('Removed ' + id);
+    },
+    error: function() {
+      console.log('Remove client error!');
+    }
+  }); 
   renderClientCards();
 }
 
