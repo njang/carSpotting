@@ -127,6 +127,7 @@ const renderClientCards = () => {
     method: 'GET',
     url: '/api/clients',
     success: (clients) => {
+      $('#clients').append($('<div>', {class: 'col col-12 text-right', text: clients.length + ' clients found'}));      
       clients.forEach((client) => {
         clientCard(client);
       });
