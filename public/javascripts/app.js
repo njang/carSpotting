@@ -14,8 +14,8 @@ $(document).on('click', '.btn-edit-client', (e) => {
 
   // Populate the input fields with current values
   $('#editModalName').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
-  $('#editModalAddress').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
-  $('#editModalPhone').val(e.target.closest('.clientCard').childNodes[1].childNodes[1].textContent.replace('/\s/g',''));
+  $('#editModalAddress').val(e.target.closest('.clientCard').childNodes[1].childNodes[0].childNodes[1].textContent);
+  $('#editModalPhone').val(e.target.closest('.clientCard').childNodes[1].childNodes[1].childNodes[1].textContent.replace('/\s/g',''));
 });
 
 // Saving new client into database
@@ -101,7 +101,7 @@ function newClientError() {
 
 // Link editClient function to edit buttons
 $(document).on('click', '.btn-edit-client', function(e) {
-  editClient(e);
+  // editClient(e);
 });
 
 // Link removeClient function to remove buttons
