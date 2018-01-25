@@ -2,10 +2,10 @@
 const clientCard = (client) => {
 
   // Initiate a client card
-  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-xs-12 col-md-6 col-lg-4 col-xl-3', 'data-client-id': client._id});
+  let cardElement = $('<div>', {class: 'clientCard card bg-dark text-white col-xs-12 col-md-6 col-lg-4 col-xl-3', 'data-client-id': client._id, 'data-toggle': 'collapse', href: '#panel-' + client._id});
 
   // A row to display the client name on top of the card
-  let divElement = $('<div>', {class: 'card-row-user row', 'data-toggle': 'collapse', href: '#panel-' + client._id});
+  let divElement = $('<div>', {class: 'card-row-user row'});
   divElement.append($('<i>', {class: 'col col-2 material-icons text-success text-right', text: 'person'}));
   divElement.append($('<h4>', {class: 'col col-10', text: client.name}));
   cardElement.append(divElement);
