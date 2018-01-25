@@ -170,9 +170,9 @@ const clientCard = (client) => {
   divElement = $('<div>', {id: 'modalRemoveClient', class: 'modal fade', role: 'dialog'});
   divElement.append($('<div>', {class: 'modal-dialog modal-md'})
       .append($('<div>', {class: 'modal-content'})
-        .append($('<div>', {class: 'modal-body text-left', text: 'Are you sure to remove this client?'}))
+        .append($('<div>', {class: 'modal-body text-left text-dark', text: 'Are you sure to remove this client?'}))
         .append($('<div>', {class: 'modal-footer'})
-          .append($('<button>', {class: 'btn btn-danger btn-remove-client', text: 'Remove'}))
+          .append($('<button>', {class: 'btn btn-danger btn-remove-client', 'data-dismiss': 'modal', text: 'Remove'}))
           .append($('<button>', {class: 'btn btn-basic', 'data-dismiss': 'modal', text: 'Cancel'}))
       )
     )
