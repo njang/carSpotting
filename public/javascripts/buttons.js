@@ -1,5 +1,10 @@
 // Link all buttons to their respective functions
 
+// Add a button to add new client.
+(() => {
+  $('#add-client').append($('<button>', {class: 'btn btn-danger btn-add-client align-top text-center material-icons md-2', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'library_add'}));
+})()
+
 // Modal for creating a new client
 // Partial entry of address uses Google Maps Geocode API to parse to formatted street address and GPS coordinates
 $(document).on('click', '.saveNewClient', (e) => {
