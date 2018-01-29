@@ -76,11 +76,19 @@ $(document).on('click', '.saveNewClient', (e) => {
 $(document).on('click', '.btn-edit-client', (e) => {
   e.preventDefault();
   let targetClientId = e.target.closest('.clientCard').dataset.clientId;
-
-  // Populate the input fields with current values
-  $('#editModalName').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
-  $('#editModalAddress').val(e.target.closest('.clientCard').childNodes[1].childNodes[0].childNodes[1].textContent);
-  $('#editModalPhone').val(e.target.closest('.clientCard').childNodes[1].childNodes[1].childNodes[1].textContent.replace('/\s/g',''));
+  // Get patient information
+  $.ajax({
+    method: 'GET',
+    url: '/api/clients/' + targetClientId,
+    success: (client) => {
+      // Populate the input fields with current values
+      $('#editModalName').val(client.name);
+      $('#editModalAddress').val(client.location.streetAddress);
+      $('#editModalPhone').val(formatPhoneNumber(client.phone));
+      $('#editModalTurfType').val(client.lawn.turfType);
+      $('#editModalLastMowed').val(client.lawn.lastMowed);
+    }
+  });
 });
 
 // Modal for deleting a client
