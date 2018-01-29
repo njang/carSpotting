@@ -47,7 +47,12 @@ $(document).on('click', '.saveNewClient', (e) => {
     data: {
       name: newClientInput.name.value,
       location: {
-        streetAddress: newClientInput.address.value
+        streetAddress: newClientInput.address.value,
+        // streetAddress: responseData.results[0].formatted_address,
+        coordinates: {
+          lat: 0,
+          lng: 0
+        }
       },
       phone: newClientInput.phone.value,
       lawn: {
