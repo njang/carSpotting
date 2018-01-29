@@ -14,8 +14,8 @@ const ClientSchema = new Schema({
   phone: Number,
   lawn: {
     lotSize: Number,
-    turfType: String
-    // lastMowed: Number
+    turfType: String,
+    lastMowed: String
   }
 });
 
