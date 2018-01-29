@@ -76,9 +76,9 @@ router.get('/api', function api_index (req, res){
       // {method: "GET", path: "/api/clients/new", description: "Show new client form"},
       {method: "POST", path: "/api/clients", description: "Create a client"},
       {method: "GET", path: "/api/clients/:id", description: "Show client with :id"},
-      {method: "GET", path: "/api/clients/:id/edit", description: "Edit client with :id"},
+      // {method: "GET", path: "/api/clients/:id/edit", description: "Edit client with :id"},
       {method: "PATCH", path: "/api/clients/:id", description: "Update client with :id"},
-      {method: "GET", path: "/api/clients/:id/delete", description: "Show delete form for a client with :id"},
+      // {method: "GET", path: "/api/clients/:id/delete", description: "Show delete form for a client with :id"},
       {method: "DELETE", path: "/api/clients/:id", description: "Delete client with :id"}
     ]
   });
@@ -119,29 +119,29 @@ router.get('/api/clients/:id', function findClient (req, res) {
 	});
 });
 
-// Edit client with :id
-router.get('/api/clients/:id/edit', function editClient (req, res) {
-  let clientId = req.params.id;
+// // Edit client with :id
+// router.get('/api/clients/:id/edit', function editClient (req, res) {
+//   let clientId = req.params.id;
 
 
-  Clients.findOne({ _id: clientId }, function (err, foundClient) {
-    console.log(foundClient);
-  //   // update the todos's attributes
-  //   foundClient.name = req.body.name;
-  //   foundClient.phone = req.body.phone;
-  //   // foundClient.location = req.body.location;
-		// foundClient.lawn.lotSize = req.body.lotSize;
-  //   foundClient.lawn.turfType = req.body.turfType;
-  //   foundClient.lawn.lastMowed = req.body.lastMowed;
+//   Clients.findOne({ _id: clientId }, function (err, foundClient) {
+//     console.log(foundClient);
+//   //   // update the todos's attributes
+//   //   foundClient.name = req.body.name;
+//   //   foundClient.phone = req.body.phone;
+//   //   // foundClient.location = req.body.location;
+// 		// foundClient.lawn.lotSize = req.body.lotSize;
+//   //   foundClient.lawn.turfType = req.body.turfType;
+//   //   foundClient.lawn.lastMowed = req.body.lastMowed;
 
-  //   foundClient.save(function (err, savedClient) {
-  //     res.json(savedClient);
-  //   });
-  });
-	res.json({
-		message: "Edit client with :id"
-	});
-});
+//   //   foundClient.save(function (err, savedClient) {
+//   //     res.json(savedClient);
+//   //   });
+//   });
+// 	res.json({
+// 		message: "Edit client with :id"
+// 	});
+// });
 
 // Update client with :id
 // router.patch('/api/clients/:id', function updateClient (req, res) {

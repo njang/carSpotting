@@ -5,7 +5,10 @@ var db = require("./models");
 
 const calcLastMowed = (durationInDays) => {
   let today = new Date();
-  return Math.floor((today - (durationInDays * 24 * 60 * 60 * 1000)) / 1000);
+  let lastMowed = new Date((today - (durationInDays * 24 * 60 * 60 * 1000)));
+  result = `${lastMowed.getMonth()+1}/${lastMowed.getDate()}/${lastMowed.getFullYear()}`
+  return result;
+  // return Math.floor((today - (durationInDays * 24 * 60 * 60 * 1000)) / 1000);
 };
 
 var clientList =[];
