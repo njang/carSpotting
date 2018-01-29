@@ -51,15 +51,3 @@ const formatAddress = (address) => {
   let addressLines = address.split(',');
   return addressLines[0] + '<br>' + addressLines[1] + ', ' + addressLines[2];
 }
-
-// Calculates how long ago the time of event was, and returns it in unit of days
-const howLongSince = (timeOfEvent) => {
-  let dt = Math.floor((new Date() - timeOfEvent * 1000) / 1000 / 60 / 60 / 24);
-  let message = "";
-  if (dt > 1) {
-    message = dt + ' days ago';
-  } else {
-    message = 'Yesterday';
-  }
-  return message;
-}
