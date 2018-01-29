@@ -1,20 +1,17 @@
 // Link all buttons to their respective functions
 
+// Add a button to add new client.
+(() => {
+  $('#add-client').append($('<button>', {class: 'btn btn-danger btn-add-client align-top text-center material-icons md-2', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'library_add'}));
+})()
+
 // Modal for creating a new client
 // Partial entry of address uses Google Maps Geocode API to parse to formatted street address and GPS coordinates
 $(document).on('click', '.saveNewClient', (e) => {
   e.preventDefault();
-
-  let newClientInput = e.target.parentElement.parentElement.parentElement;
-
-  // Output the captured information on the New Client Form  
-  console.log('Saving new client');
-  console.log('Name: ' + newClientInput.name.value);
-  console.log('Address: ' + newClientInput.address.value);
-  console.log('Phone: ' + formatPhoneNumber(newClientInput.phone.value));
-  console.log('Lawn: ' + newClientInput.turfType.value);
-  console.log('Last mowed: ' + newClientInput.lastMowed.value);
-
+  // let newClientInput = e.target.parentElement.parentElement.parentElement;
+  let newClientInput = e.target.closest('form');
+  // debugger;
   // Add geocode converter
   const endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
   let url = endpoint + encodeURIComponent(newClientInput.address.value);
@@ -29,10 +26,10 @@ $(document).on('click', '.saveNewClient', (e) => {
       let message = '';
       switch (responseData.status) {
         case 'OK':
-          geocodeResult.address = responseData.results[0].formatted_address;
-          geocodeResult.lat = responseData.results[0].geometry.location.lat;
-          geocodeResult.lng = responseData.results[0].geometry.location.lng;
-          console.log(geocodeResult);
+          // geocodeResult.address = responseData.results[0].formatted_address;
+          // geocodeResult.lat = responseData.results[0].geometry.location.lat;
+          // geocodeResult.lng = responseData.results[0].geometry.location.lng;
+          // console.log(geocodeResult);
           break;
         case 'ZERO_RESULTS':
           message = 'No coordinates found';
@@ -50,19 +47,25 @@ $(document).on('click', '.saveNewClient', (e) => {
     data: {
       name: newClientInput.name.value,
       location: {
-        streetAddress: newClientInput.address.value
+        streetAddress: newClientInput.address.value,
+        // streetAddress: responseData.results[0].formatted_address,
+        coordinates: {
+          lat: 0,
+          lng: 0
+        }
       },
       phone: newClientInput.phone.value,
       lawn: {
+        lotSize: newClientInput.lotSize.value,
         turfType: newClientInput.turfType.value,
         lastMowed: newClientInput.lastMowed.value
       }
     },
     success: () => {
-    	console.log('new client success!')
+    	console.log('New client added successfully.')
     },
     error: () => {
-  		console.log('new client error!')
+  		console.log('Error: new client was not added.')
     }
   });
 
@@ -76,11 +79,19 @@ $(document).on('click', '.saveNewClient', (e) => {
 $(document).on('click', '.btn-edit-client', (e) => {
   e.preventDefault();
   let targetClientId = e.target.closest('.clientCard').dataset.clientId;
-
-  // Populate the input fields with current values
-  $('#editModalName').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
-  $('#editModalAddress').val(e.target.closest('.clientCard').childNodes[1].childNodes[0].childNodes[1].textContent);
-  $('#editModalPhone').val(e.target.closest('.clientCard').childNodes[1].childNodes[1].childNodes[1].textContent.replace('/\s/g',''));
+  // Get patient information
+  $.ajax({
+    method: 'GET',
+    url: '/api/clients/' + targetClientId,
+    success: (client) => {
+      // Populate the input fields with current values
+      $('#editModalName').val(client.name);
+      $('#editModalAddress').val(client.location.streetAddress);
+      $('#editModalPhone').val(formatPhoneNumber(client.phone));
+      $('#editModalTurfType').val(client.lawn.turfType);
+      $('#editModalLastMowed').val(client.lawn.lastMowed);
+    }
+  });
 });
 
 // Modal for deleting a client
@@ -89,7 +100,7 @@ $(document).on('click', '.btn-remove-client', (e) => {
   e.preventDefault();
   let targetClientId = e.target.closest('.clientCard').dataset.clientId;
   // Populate the input fields with current values
-  $('.removeClientConfirm').val(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
+  $('.removeClientConfirm').text(e.target.closest('.clientCard').childNodes[0].childNodes[1].textContent);
 
   $(document).on('click', '.btn-remove-client-confirm', (e) => {
     e.preventDefault();

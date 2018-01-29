@@ -1,13 +1,4 @@
 
-$(document).ready(function() {
-  // Initial render of clients
-  renderClientCards();
-
-  // Add a button to add new client.
-  $('#add-client').append($('<button>', {class: 'btn btn-danger btn-add-client align-top text-center material-icons md-2', 'data-toggle': 'modal', 'data-target': '#modalNewClient', text: 'library_add'}));
-});
-
-
 const editClient = (e) => {
   e.preventDefault();
   let targetId = e.target.closest('.clientCard').dataset.clientId;

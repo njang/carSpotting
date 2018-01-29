@@ -1,3 +1,8 @@
+// Initial render of clients
+$(document).ready(function() {
+  renderClientCards();
+});
+
 // Assemble client cards
 const clientCard = (client) => {
 
