@@ -7,10 +7,10 @@ const editClient = (e) => {
   $.ajax({
     method: 'PATCH',
     url: url,
-    success: function() {
+    success: () => {
       console.log('Edited ' + targetId);
     },
-    error: function() {
+    error: () => {
       console.log('Edit client error!');
     }
   });
@@ -21,10 +21,10 @@ const removeClient = (id) => {
   $.ajax({
     method: 'DELETE',
     url: url,
-    success: function() {
+    success: () => {
       console.log('Removed ' + id);
     },
-    error: function() {
+    error: () => {
       console.log('Remove client error!');
     }
   }); 

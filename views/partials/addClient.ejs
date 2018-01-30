@@ -10,33 +10,35 @@
         	<div class="row">
             <div class="col col-3 offset-2">Name</div>
             <div class="col col-7">
-          		<input type="text" id="name" required>
+          		<input type="text" id="addModalName" required>
             </div>
         	</div>
         	<div class="row">
             <div class="col col-3 offset-2">Address</div>
             <div class="col col-7">
-	        	  <input type="text" id="address" required>
+	        	  <input type="text" id="addModalAddress" required>
+              <input type="text" id="addModalLat" hidden>
+              <input type="text" id="addModalLng" hidden>
             </div>
         	</div>
         	<div class="row">
             <div class="col col-3 offset-2">Phone</div>
             <div class="col col-7">
-  	      	  <input type="text" id="phone" required>
+  	      	  <input type="text" id="addModalPhone" required>
             </div>
         	</div>
           <div class="row">
             <div class="col col-3 offset-2">Lot Size</div>
             <div class="col col-7">
-              <input type="number" id="lotSize">
+              <input type="number" id="addModalLotSize">
             </div>
           </div>
           <div class="row">
             <div class="col col-3 offset-2">Turf type</div>
             <div class="col col-7">
-              <select id="turfType">
+              <select id="addModalTurfType">
                 <option value="" default></option>
-                <option value="St. Augustine">St.Augustine</option>
+                <option value="St.Augustine">St.Augustine</option>
                 <option value="Bermuda">Bermuda</option>
                 <option value="Zoysia">Zoysia</option>
               </select>
@@ -45,7 +47,7 @@
           <div class="row">
             <div class="col col-3 offset-2">Last mowed</div>
             <div class="col col-7">
-              <input type="date" id="lastMowed">
+              <input type="date" id="addModalLastMowed">
             </div>
           </div>
           <div class="row">
