@@ -94,17 +94,15 @@ $(document).on('click', '.btn-edit-client', (e) => {
 $(document).on('click', '.btn-update-client', (e) => {
   e.preventDefault();
   // let targetClientId = $('#modalEditClient').dataset.clientId;
-  let targetClientId = '5a70016ffbd4931fb72e514a';
+  let targetClientId = '5a70021e6087352075008f9b';
   // Get client information
   $.ajax({
     method: 'PUT',
     url: '/api/clients/' + targetClientId,
     data: {
       // name: $('#editModalName').val(),
-      name: 'Samuel Duncan',
-      // location.streetAddress: '1600 Pensylvania Ave 10021',
-      // location.coordinates.lat: 0,
-      // location.coordinates.lng: 0,
+      name: 'Jackson Duncan',
+      location: {streetAddress: '1600 Pensylvania Ave 10021'},
 
       // location: {
       //   // streetAddress: $('#editModalAddress').val(),
@@ -115,18 +113,18 @@ $(document).on('click', '.btn-update-client', (e) => {
       //   }
       // },
       // phone: $('#editModalPhone').val(),
-      phone: 1234567890
+      phone: 1234567890,
       // lawn.lotSize: 1.0,
       // lawn.turfType: 'Zoysia',
       // lawn.lastMowed: '1/23/2018'
-      // lawn: {
+      lawn: {
         // lotSize: $('#editModalLotSize').val(),
         // turfType: $('#editModalTurfType').val(),
         // lastMowed: $('#editModalLastMowed').val()
-        // lotSize: 1.0,
-        // turfType: 'Zoysia',
-        // lastMowed: '1/23/2018'
-      // }
+        lotSize: 1.0,
+        turfType: 'Zoysia',
+        lastMowed: '1/23/2018'
+      }
     },
     success: () => {
       console.log('Client info updated successfully.')
