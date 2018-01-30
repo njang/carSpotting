@@ -90,6 +90,53 @@ $(document).on('click', '.btn-edit-client', (e) => {
   });
 });
 
+// Modal for editing a client
+$(document).on('click', '.btn-update-client', (e) => {
+  e.preventDefault();
+  // let targetClientId = $('#modalEditClient').dataset.clientId;
+  let targetClientId = '5a70016ffbd4931fb72e514a';
+  // Get client information
+  $.ajax({
+    method: 'PUT',
+    url: '/api/clients/' + targetClientId,
+    data: {
+      // name: $('#editModalName').val(),
+      name: 'Samuel Duncan',
+      // location.streetAddress: '1600 Pensylvania Ave 10021',
+      // location.coordinates.lat: 0,
+      // location.coordinates.lng: 0,
+
+      // location: {
+      //   // streetAddress: $('#editModalAddress').val(),
+      //   streetAddress: '1600 Pensylvania Ave. 10021',
+      //   coordinates: {
+      //     lat: 0,
+      //     lng: 0
+      //   }
+      // },
+      // phone: $('#editModalPhone').val(),
+      phone: 1234567890
+      // lawn.lotSize: 1.0,
+      // lawn.turfType: 'Zoysia',
+      // lawn.lastMowed: '1/23/2018'
+      // lawn: {
+        // lotSize: $('#editModalLotSize').val(),
+        // turfType: $('#editModalTurfType').val(),
+        // lastMowed: $('#editModalLastMowed').val()
+        // lotSize: 1.0,
+        // turfType: 'Zoysia',
+        // lastMowed: '1/23/2018'
+      // }
+    },
+    success: () => {
+      console.log('Client info updated successfully.')
+    },
+    error: () => {
+      console.log('Error: client info was not updated.')
+    }
+  });
+});
+
 // Modal for deleting a client
 // Once confirmed, confirm-delete button executes the delete operation
 $(document).on('click', '.btn-remove-client', (e) => {
