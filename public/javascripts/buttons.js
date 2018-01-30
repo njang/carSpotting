@@ -9,13 +9,10 @@
 // Partial entry of address uses Google Maps Geocode API to parse to formatted street address and GPS coordinates
 $(document).on('click', '.saveNewClient', (e) => {
   e.preventDefault();
-  // let newClientInput = e.target.parentElement.parentElement.parentElement;
   let newClientInput = e.target.closest('form');
-  // debugger;
   // Add geocode converter
   const endpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address='
-  let url = endpoint + encodeURIComponent(newClientInput.address.value);
-  let geocodeResult = {};
+  let url = endpoint + encodeURIComponent(newClientInput.addModalAddress.value);
   $.ajax({
     // Define the kind of request as 'GET'
     method: 'GET',  
@@ -26,10 +23,10 @@ $(document).on('click', '.saveNewClient', (e) => {
       let message = '';
       switch (responseData.status) {
         case 'OK':
-          // geocodeResult.address = responseData.results[0].formatted_address;
-          // geocodeResult.lat = responseData.results[0].geometry.location.lat;
-          // geocodeResult.lng = responseData.results[0].geometry.location.lng;
-          // console.log(geocodeResult);
+          $('#addModalAddress').val(responseData.results[0].formatted_address);
+          $('#addModalLat').val(responseData.results[0].geometry.location.lat);
+          $('#addModalLng').val(responseData.results[0].geometry.location.lng);
+          console.log('Client address modified prior to save');
           break;
         case 'ZERO_RESULTS':
           message = 'No coordinates found';
@@ -37,32 +34,31 @@ $(document).on('click', '.saveNewClient', (e) => {
         default:
           message = responseData.status;
       }
-      console.log(message);
     }
   });
+
 
   $.ajax({
     method: 'POST',
     url: '/api/clients',
     data: {
-      name: newClientInput.name.value,
+      name: newClientInput.addModalName.value,
       location: {
-        streetAddress: newClientInput.address.value,
-        // streetAddress: responseData.results[0].formatted_address,
+        streetAddress: newClientInput.addModalAddress.value,
         coordinates: {
-          lat: 0,
-          lng: 0
+          lat: newClientInput.addModalLat.value,
+          lng: newClientInput.addModalLng.value
         }
       },
-      phone: newClientInput.phone.value,
+      phone: newClientInput.addModalPhone.value,
       lawn: {
-        lotSize: newClientInput.lotSize.value,
-        turfType: newClientInput.turfType.value,
-        lastMowed: newClientInput.lastMowed.value
+        lotSize: newClientInput.addModalLotSize.value,
+        turfType: newClientInput.addModalTurfType.value,
+        lastMowed: newClientInput.addModalLastMowed.value
       }
     },
-    success: () => {
-    	console.log('New client added successfully.')
+    success: (result) => {
+    	console.log('New client added successfully.' + result._id)
     },
     error: () => {
   		console.log('Error: new client was not added.')
